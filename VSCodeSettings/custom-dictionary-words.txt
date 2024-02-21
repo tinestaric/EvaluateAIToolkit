@@ -4,12 +4,14 @@ addlast
 Allo
 Alloc
 andrzejzwierzchowski
+AOAI
 asserterror
 Belowx
 codeactions
 codeunit
 Codeunits
 Curr
+Cust
 davidfeldhoff
 Debuggable
 Drilldown
@@ -24,6 +26,7 @@ Purch
 rasmus
 rvanbekkum
 Settl
+systemaction
 tableextension
 Templ
 usercontrol

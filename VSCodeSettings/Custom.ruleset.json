@@ -17,10 +17,16 @@
             "action": "Hidden",
             "justification": "TableDefinitions need parameter set. - Temporarily hidden. Will be restored."
         },
-		{
+	{
             "id": "AS0081",
             "action": "Hidden",
             "justification": "The rule should be hidden in order to use internal procedures in test app"
+        },
+	{
+            "id": "AA0218",
+            "action": "Hidden",
+            "justification": "Don't need tooltips yet"
         }
+
     ]
 }
