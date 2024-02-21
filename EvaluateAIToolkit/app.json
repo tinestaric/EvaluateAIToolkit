@@ -1,0 +1,36 @@
+{
+  "id": "d002b6d9-8195-44dc-a7a3-53b3bde223d2",
+  "name": "EvaluateAIToolkit",
+  "publisher": "Tine&Berny",
+  "version": "1.0.0.0",
+  "brief": "Toolkit for Evaluating and rapid prototyping of AI features.",
+  "description": "Toolkit for Evaluating and rapid prototyping of AI features.",
+  "privacyStatement": "https://example.com/",
+  "EULA": "https://example.com/",
+  "help": "https://example.com/",
+  "url": "https://example.com/",
+  "contextSensitiveHelpUrl": "https://example.com/",
+  "logo": "../Resources/logo.jpeg",
+  "dependencies": [],
+  "screenshots": [],
+  "platform": "23.0.0.0",
+  "application": "23.0.0.0",
+  "idRanges": [
+    {
+      "from": 70100,
+      "to": 70599
+    }
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true
+  },
+  "runtime": "13.0",
+  "features": [
+    "NoImplicitWith",
+    "NoPromotedActionProperties",
+    "TranslationFile"
+  ],
+  "applicationInsightsConnectionString": "InstrumentationKey=6fc8248a-52bb-4159-8a5d-faebe5385476;IngestionEndpoint=https://swedencentral-0.in.applicationinsights.azure.com/"
+}

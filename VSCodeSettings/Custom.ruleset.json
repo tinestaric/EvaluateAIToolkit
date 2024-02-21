@@ -1,0 +1,26 @@
+{
+    "name": "Inca",
+    "description": "A list of project specific rulesets",
+    "rules": [
+        {
+            "id": "AS0084",
+            "action": "Hidden",
+            "justification": "Allow temporary IDs in this range"
+        },
+		{
+            "id": "AA0072",
+            "action": "Hidden",
+            "justification": "The rule from Microsoft is too strict and apparently not implemented correctly (could possibly be reinstated later)"
+        },
+        {
+            "id": "AS0103",
+            "action": "Hidden",
+            "justification": "TableDefinitions need parameter set. - Temporarily hidden. Will be restored."
+        },
+		{
+            "id": "AS0081",
+            "action": "Hidden",
+            "justification": "The rule should be hidden in order to use internal procedures in test app"
+        }
+    ]
+}

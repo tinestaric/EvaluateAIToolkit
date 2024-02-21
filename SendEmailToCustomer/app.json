@@ -1,0 +1,36 @@
+{
+  "id": "a9684c47-98c5-47d2-8a06-819895095ea4",
+  "name": "SendEmailToCustomer",
+  "publisher": "Tine&Berny",
+  "version": "1.0.0.0",
+  "brief": "Sample App for sending an AI generated email to customer.",
+  "description": "Sample App for sending an AI generated email to customer.",
+  "privacyStatement": "https://example.com/",
+  "EULA": "https://example.com/",
+  "help": "https://example.com/",
+  "url": "https://example.com/",
+  "contextSensitiveHelpUrl": "https://example.com/",
+  "logo": "../Resources/logo.jpeg",
+  "dependencies": [],
+  "screenshots": [],
+  "platform": "23.0.0.0",
+  "application": "23.0.0.0",
+  "idRanges": [
+    {
+      "from": 50100,
+      "to": 50599
+    }
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true
+  },
+  "runtime": "13.0",
+  "features": [
+    "NoImplicitWith",
+    "NoPromotedActionProperties",
+    "TranslationFile"
+  ],
+  "applicationInsightsConnectionString": "InstrumentationKey=00000000-0000-0000-0000-000000000000"
+}
