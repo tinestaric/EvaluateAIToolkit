@@ -36,6 +36,7 @@ table 70100 PromptTest
         }
         field(70; NoOfTestRuns; Integer)
         {
+            InitValue = 10;
             Caption = 'No. of Test Runs';
         }
         field(80; VersionNo; Integer)
@@ -160,12 +161,16 @@ table 70100 PromptTest
     begin
         ResultLogger.Initialize(Rec, Completion, UserPromptText);
 
-        IsSuccess := TestCompletionWithSchema(Completion, ErrorMessage);
-        ResultLogger.LogSchemaValidationResult(IsSuccess, ErrorMessage);
+        if Rec.GetExpectedResponseSchema() <> '' then begin
+            IsSuccess := TestCompletionWithSchema(Completion, ErrorMessage);
+            ResultLogger.LogSchemaValidationResult(IsSuccess, ErrorMessage);
+        end;
 
-        Clear(ErrorMessage);
-        IsSuccess := TestCompletionWithValidationPrompt(Completion, ErrorMessage);
-        ResultLogger.LogSchemaValidationResult(IsSuccess, ErrorMessage);
+        if Rec.GetValidationPrompt() <> '' then begin
+            Clear(ErrorMessage);
+            IsSuccess := TestCompletionWithValidationPrompt(Completion, ErrorMessage);
+            ResultLogger.LogValidationPromptResult(IsSuccess, ErrorMessage);
+        end;
     end;
 
     internal procedure TestCompletionWithSchema(Completion: Text; var ErrorMessage: Text) IsSuccess: Boolean
@@ -181,7 +186,7 @@ table 70100 PromptTest
     var
         ValidationPromptCheck: Codeunit ValidationPromptCheck;
     begin
-        IsSuccess := ValidationPromptCheck.ValidateCompletion(Rec.GetValidationPrompt(), CompletionToValidate, ErrorMessage);
+        IsSuccess := ValidationPromptCheck.ValidateCompletion(CompletionToValidate, Rec.GetValidationPrompt(), ErrorMessage);
     end;
     #endregion
 

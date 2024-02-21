@@ -17,7 +17,11 @@ codeunit 70113 ValidationPromptCheck
             Completion := ExecuteValidationPrompt.ExecutePrompt(ValidationPrompt, CompletionToValidate);
 
         if CheckIfValidCompletion(Completion) then
-            IsSuccess := ParseCompletion(Completion, ErrorMessage);
+            IsSuccess := ParseCompletion(Completion, ErrorMessage)
+        else begin
+            IsSuccess := false;
+            ErrorMessage := GetLastErrorText();
+        end;
     end;
 
     internal procedure SetShowUI(ShowUI: Boolean)

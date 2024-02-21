@@ -110,8 +110,7 @@ page 70101 PromptTestCard
                 var
                     IsSuccess: Boolean;
                 begin
-                    if _Completion = '' then
-                        _Completion := Rec.Complete(Rec.GetDefaultUserPrompt());
+                    _Completion := Rec.Complete(Rec.GetDefaultUserPrompt());
 
                     IsSuccess := Rec.TestCompletion(_Completion, Rec.GetDefaultUserPrompt());
 
