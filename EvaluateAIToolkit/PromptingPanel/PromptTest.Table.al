@@ -22,7 +22,7 @@ table 70100 PromptTest
         {
             Caption = 'System Prompt';
         }
-        field(40; UserPrompt; Blob)
+        field(40; DefaultUserPrompt; Blob)
         {
             Caption = 'User Prompt';
         }
@@ -71,12 +71,12 @@ table 70100 PromptTest
         exit(ReadBlob(InStr));
     end;
 
-    internal procedure GetUserPrompt(): Text
+    internal procedure GetDefaultUserPrompt(): Text
     var
         InStr: InStream;
     begin
-        Rec.CalcFields(UserPrompt);
-        Rec.UserPrompt.CreateInStream(InStr);
+        Rec.CalcFields(DefaultUserPrompt);
+        Rec.DefaultUserPrompt.CreateInStream(InStr);
         exit(ReadBlob(InStr));
     end;
 
@@ -123,24 +123,26 @@ table 70100 PromptTest
     #endregion
 
     #region Completion
-    internal procedure Complete(): Text
+    internal procedure Complete(UserPrompt: Text): Text
     var
         ExecuteTestPrompt: Codeunit ExecuteTestPrompt;
     begin
-        exit(ExecuteTestPrompt.Call(Rec.GetSystemPrompt(), Rec.GetUserPrompt()));
+        exit(ExecuteTestPrompt.Call(Rec.GetSystemPrompt(), UserPrompt));
     end;
 
     internal procedure TestCompletionWithSchema(Completion: Text; UserPromptText: Text) IsSuccess: Boolean
     var
         ResultLogger: Codeunit ResultLogger;
         ISchemaTester: Interface ISchemaTester;
+        ErrorMessage: Text;
     begin
         ResultLogger.Initialize(Rec, Completion, UserPromptText);
 
         ISchemaTester := Rec.ExpectedResponseType;
-        ISchemaTester.Initialize(ResultLogger);
         ISchemaTester.LoadSchema(Rec.GetExpectedResponseSchema());
-        IsSuccess := ISchemaTester.Test(Completion);
+        IsSuccess := ISchemaTester.Test(Completion, ErrorMessage);
+
+        ResultLogger.LogResult(IsSuccess, ErrorMessage);
     end;
     #endregion
 

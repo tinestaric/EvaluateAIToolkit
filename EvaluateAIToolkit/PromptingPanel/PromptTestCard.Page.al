@@ -51,7 +51,7 @@ page 70101 PromptTestCard
             }
             group(UserPromptGroup)
             {
-                Caption = 'User Prompt';
+                Caption = 'Default User Prompt';
 
                 field(UserPrompt; _UserPrompt)
                 {
@@ -63,8 +63,8 @@ page 70101 PromptTestCard
                     var
                         OutStr: OutStream;
                     begin
-                        Clear(Rec.UserPrompt);
-                        Rec.UserPrompt.CreateOutStream(OutStr);
+                        Clear(Rec.DefaultUserPrompt);
+                        Rec.DefaultUserPrompt.CreateOutStream(OutStr);
                         OutStr.WriteText(_UserPrompt);
                     end;
                 }
@@ -95,8 +95,12 @@ page 70101 PromptTestCard
                 Image = SparkleFilled;
 
                 trigger OnAction()
+                var
+                    RunPromptDialog: Page RunPromptDialog;
                 begin
-                    _Completion := Rec.Complete();
+                    RunPromptDialog.SetPromptTest(Rec);
+                    if RunPromptDialog.RunModal() = Action::OK then
+                        _Completion := RunPromptDialog.GetCompletion();
                 end;
             }
             action(TestPrompt)
@@ -109,8 +113,8 @@ page 70101 PromptTestCard
                 var
                     IsSuccess: Boolean;
                 begin
-                    _Completion := Rec.Complete();
-                    IsSuccess := Rec.TestCompletionWithSchema(_Completion, Rec.GetUserPrompt());
+                    _Completion := Rec.Complete(Rec.GetDefaultUserPrompt());
+                    IsSuccess := Rec.TestCompletionWithSchema(_Completion, Rec.GetDefaultUserPrompt());
 
                     Message('Test Completion Structure: %1', IsSuccess);
                 end;
@@ -176,7 +180,7 @@ page 70101 PromptTestCard
     local procedure GetTextFromBlobs()
     begin
         _SystemPrompt := Rec.GetSystemPrompt();
-        _UserPrompt := Rec.GetUserPrompt();
+        _UserPrompt := Rec.GetDefaultUserPrompt();
     end;
 
     local procedure OpenTestResults()

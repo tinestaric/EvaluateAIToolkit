@@ -46,14 +46,14 @@ page 70102 PromptTestSetup
             {
                 Caption = 'Get Response Schema';
                 ToolTip = 'Uses GPT to extract the expected schema out of the system prompt';
-                Image = GetEntries;
+                Image = SparkleFilled;
 
                 trigger OnAction()
                 var
-                    ExtractResponseSchema: Codeunit ExtractResponseSchema;
+                    ExtractSchemaPromptDialog: Page ExtractSchemaPromptDialog;
                 begin
-                    ExtractResponseSchema.Call(Rec.GetSystemPrompt(), Rec);
-                    CurrPage.Update(false);
+                    ExtractSchemaPromptDialog.SetPromptTest(Rec);
+                    ExtractSchemaPromptDialog.RunModal();
                 end;
             }
         }

@@ -28,17 +28,16 @@ codeunit 70103 ExtractResponseSchema
         SystemPrompt.AppendLine('Your task: Extract the expected response structure from the given system prompt.');
         SystemPrompt.AppendLine('The system prompt may contain instructions on how the response should be structured. If you find a JSON or XML schema capture it.');
         SystemPrompt.AppendLine('Extract the structure as a valid JSON or XML schema');
+        SystemPrompt.AppendLine('Just because  prompt has structured data, does not mean it expects a structured response.');
         SystemPrompt.AppendLine();
         SystemPrompt.AppendLine('IMPORTANT!');
         SystemPrompt.AppendLine('Don''t add comments.');
-
         SystemPrompt.AppendLine('''''''');
         SystemPrompt.AppendLine('    {');
         SystemPrompt.AppendLine('        "type": "string (XML or JSON)",');
         SystemPrompt.AppendLine('        "schema": "string",');
         SystemPrompt.AppendLine('    }');
         SystemPrompt.AppendLine('''''''');
-
         SystemPrompt.AppendLine('If you can''t answer or don''t know the answer, respond with: []');
         exit(SystemPrompt.ToText());
     end;
@@ -63,8 +62,6 @@ codeunit 70103 ExtractResponseSchema
 
         JSONManagement.GetStringPropertyValueByName('schema', valueText);
         PromptTest.SetExpectedResponseSchema(valueText);
-
-        PromptTest.Modify(true);
     end;
 
     local procedure GetResponseType(value: Text): Enum ExpectedResponseType
