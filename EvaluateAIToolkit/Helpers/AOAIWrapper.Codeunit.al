@@ -65,7 +65,7 @@ codeunit 70102 AOAIWrapper
 
     local procedure GetDeploymentInstance()
     var
-        gpt35turbo: Codeunit gpt432k;
+        gpt35turbo: Codeunit gpt35turbo16k;
     begin
         if DeploymentSet then
             exit;
