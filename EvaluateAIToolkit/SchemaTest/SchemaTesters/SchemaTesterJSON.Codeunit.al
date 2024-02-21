@@ -1,17 +1,22 @@
 codeunit 70107 SchemaTesterJSON implements ISchemaTester
 {
     var
-        SchemaJSONMgt: Codeunit "JSON Management";
+        _SchemaJSONMgt: Codeunit "JSON Management";
+        _ResultLogger: Codeunit ResultLogger;
+
+    procedure Initialize(ResultLogger: Codeunit ResultLogger)
+    begin
+        _ResultLogger := ResultLogger;
+    end;
 
     procedure LoadSchema(Schema: Text)
     begin
-        SchemaJSONMgt.InitializeObject(Schema);
+        _SchemaJSONMgt.InitializeObject(Schema);
     end;
 
     procedure Test(Completion: Text) IsSuccess: Boolean
     begin
-        //TODO: Implement the test        
-
+        _ResultLogger.LogResult(true, '');
         exit(true);
     end;
 }

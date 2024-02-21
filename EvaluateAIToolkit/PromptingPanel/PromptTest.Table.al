@@ -38,6 +38,11 @@ table 70100 PromptTest
         {
             Caption = 'No. of Test Runs';
         }
+        field(80; VersionNo; Integer)
+        {
+            InitValue = 1;
+            Caption = 'Version';
+        }
     }
 
     keys
@@ -47,6 +52,14 @@ table 70100 PromptTest
             Clustered = true;
         }
     }
+
+    trigger OnDelete()
+    var
+        PromptTestResult: Record PromptTestResult;
+    begin
+        PromptTestResult.SetRange(PromptCode, Rec.PromptCode);
+        PromptTestResult.DeleteAll(true);
+    end;
 
     #region Blob I/O
     internal procedure GetSystemPrompt(): Text
@@ -86,6 +99,18 @@ table 70100 PromptTest
         end;
     end;
 
+    internal procedure SetSystemPrompt(Value: Text)
+    var
+        OutStr: OutStream;
+    begin
+        Rec.VersionNo += 1;
+
+        Clear(Rec.SystemPrompt);
+        Rec.SystemPrompt.CreateOutStream(OutStr);
+        OutStr.WriteText(Value);
+        Rec.Modify(true);
+    end;
+
     internal procedure SetExpectedResponseSchema(Value: Text)
     var
         OutStr: OutStream;
@@ -105,11 +130,15 @@ table 70100 PromptTest
         exit(ExecuteTestPrompt.Call(Rec.GetSystemPrompt(), Rec.GetUserPrompt()));
     end;
 
-    internal procedure TestCompletionWithSchema(Completion: Text) IsSuccess: Boolean
+    internal procedure TestCompletionWithSchema(Completion: Text; UserPromptText: Text) IsSuccess: Boolean
     var
+        ResultLogger: Codeunit ResultLogger;
         ISchemaTester: Interface ISchemaTester;
     begin
+        ResultLogger.Initialize(Rec, Completion, UserPromptText);
+
         ISchemaTester := Rec.ExpectedResponseType;
+        ISchemaTester.Initialize(ResultLogger);
         ISchemaTester.LoadSchema(Rec.GetExpectedResponseSchema());
         IsSuccess := ISchemaTester.Test(Completion);
     end;
@@ -124,7 +153,7 @@ table 70100 PromptTest
     begin
         BCPTTestSuite.CreateUpdateTestSuiteHeader(Rec.PromptCode, SuiteDescLbl, 1, 100, 1000, 10, 'Base');
         if not BCPTTestSuite.TestSuiteLineExists(Rec.PromptCode, Codeunit::PromptTestBCPT) then
-            BCPTTestSuite.AddLineToTestSuiteHeader(Rec.PromptCode, Codeunit::PromptTestBCPT, Rec.NoOfTestRuns, LineDescLbl, 100, 1000, 1, false, Rec.PromptCode);
+            BCPTTestSuite.AddLineToTestSuiteHeader(Rec.PromptCode, Codeunit::PromptTestBCPT, Rec.NoOfTestRuns, LineDescLbl, 100, 1000, 60, false, 'CODE=' + Rec.PromptCode);
     end;
     #endregion
 }

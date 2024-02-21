@@ -14,6 +14,15 @@ page 70101 PromptTestCard
                 Caption = 'Prompt';
 
                 field(PromptCode; Rec.PromptCode) { }
+                field(VersionNo; Rec.VersionNo)
+                {
+                    Editable = false;
+
+                    trigger OnDrillDown()
+                    begin
+                        OpenTestResults();
+                    end;
+                }
             }
             group(DescriptionGroup)
             {
@@ -35,12 +44,8 @@ page 70101 PromptTestCard
                     MultiLine = true;
 
                     trigger OnValidate()
-                    var
-                        OutStr: OutStream;
                     begin
-                        Clear(Rec.SystemPrompt);
-                        Rec.SystemPrompt.CreateOutStream(OutStr);
-                        OutStr.WriteText(_SystemPrompt);
+                        Rec.SetSystemPrompt(_SystemPrompt);
                     end;
                 }
             }
@@ -105,7 +110,7 @@ page 70101 PromptTestCard
                     IsSuccess: Boolean;
                 begin
                     _Completion := Rec.Complete();
-                    IsSuccess := Rec.TestCompletionWithSchema(_Completion);
+                    IsSuccess := Rec.TestCompletionWithSchema(_Completion, Rec.GetUserPrompt());
 
                     Message('Test Completion Structure: %1', IsSuccess);
                 end;
@@ -132,6 +137,17 @@ page 70101 PromptTestCard
                 Image = Setup;
                 RunObject = Page PromptTestSetup;
                 RunPageOnRec = true;
+            }
+            action(Results)
+            {
+                Caption = 'Results';
+                ToolTip = 'View the results of the prompt tests';
+                Image = ErrorLog;
+
+                trigger OnAction()
+                begin
+                    OpenTestResults();
+                end;
             }
         }
         area(Promoted)
@@ -161,5 +177,14 @@ page 70101 PromptTestCard
     begin
         _SystemPrompt := Rec.GetSystemPrompt();
         _UserPrompt := Rec.GetUserPrompt();
+    end;
+
+    local procedure OpenTestResults()
+    var
+        PromptTestResult: Record PromptTestResult;
+    begin
+        PromptTestResult.SetRange(PromptCode, Rec.PromptCode);
+        PromptTestResult.SetRange(VersionNo, Rec.VersionNo);
+        Page.Run(Page::PromptTestResultList, PromptTestResult);
     end;
 }

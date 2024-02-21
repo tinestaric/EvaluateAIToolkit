@@ -1,5 +1,10 @@
 codeunit 70106 SchemaTesterNone implements ISchemaTester
 {
+    procedure Initialize(ResultLogger: Codeunit ResultLogger)
+    begin
+        // do nothing
+    end;
+
     procedure LoadSchema(Schema: Text)
     begin
         // do nothing
