@@ -8,8 +8,10 @@ codeunit 70107 SchemaTesterJSON implements ISchemaTester
         SchemaJSONMgt.InitializeObject(Schema);
     end;
 
-    procedure Test(Completion: Text)
+    procedure Test(Completion: Text) IsSuccess: Boolean
     begin
         //TODO: Implement the test        
+
+        exit(true);
     end;
 }

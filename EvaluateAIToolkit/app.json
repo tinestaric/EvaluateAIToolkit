@@ -11,7 +11,14 @@
   "url": "https://example.com/",
   "contextSensitiveHelpUrl": "https://example.com/",
   "logo": "../Resources/logo.jpeg",
-  "dependencies": [],
+  "dependencies": [
+    {
+      "id":  "75f1590f-55c5-4501-ae63-bada5534e852",
+      "publisher":  "Microsoft",
+      "name":  "Performance Toolkit",
+      "version":  "23.0.0.0"
+      }
+  ],
   "screenshots": [],
   "platform": "23.0.0.0",
   "application": "23.0.0.0",

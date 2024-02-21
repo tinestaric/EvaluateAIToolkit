@@ -4,7 +4,7 @@ using System.Text;
 using EvaluateAIToolkit.PromptingPanel;
 using EvaluateAIToolkit.Helpers;
 
-codeunit 70103 ExtractResponseStructure
+codeunit 70103 ExtractResponseSchema
 {
     procedure Call(SysPromptToProcess: Text; var PromptTest: Record PromptTest)
     var

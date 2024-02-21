@@ -70,7 +70,7 @@ codeunit 70102 AOAIWrapper
         CompletePromptTokenCount: Integer;
     begin
         CompletePromptTokenCount := TokenCountImpl.PreciseTokenCount(SystemPrompt) + TokenCountImpl.PreciseTokenCount(UserPrompt);
-        if CompletePromptTokenCount <= MaxInputTokens() then
+        if CompletePromptTokenCount > MaxInputTokens() then
             Error('The input token count is too large. Shorten your prompts.');
     end;
 }

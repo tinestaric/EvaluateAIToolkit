@@ -1,5 +1,7 @@
 namespace EvaluateAIToolkit.PromptingPanel;
 
+using System.Tooling;
+
 table 70100 PromptTest
 {
     DataClassification = CustomerContent;
@@ -8,7 +10,7 @@ table 70100 PromptTest
 
     fields
     {
-        field(1; PromptCode; Code[20])
+        field(1; PromptCode; Code[10])
         {
             Caption = 'Prompt Code';
         }
@@ -46,6 +48,7 @@ table 70100 PromptTest
         }
     }
 
+    #region Blob I/O
     internal procedure GetSystemPrompt(): Text
     var
         InStr: InStream;
@@ -73,23 +76,55 @@ table 70100 PromptTest
         exit(ReadBlob(InStr));
     end;
 
-    internal procedure SetExpectedResponseSchema(Value: Text)
-    var
-        OutStr: OutStream;
-    begin
-        Rec.ExpectedResponseSchema.CreateOutStream(OutStr);
-        OutStr.WriteText(Value);
-        Rec.Modify(true);
-    end;
-
-
     local procedure ReadBlob(InStr: InStream) OutText: Text
     var
         Text: Text;
     begin
         while not InStr.EOS do begin
             InStr.ReadText(Text);
-            OutText += Text + '<br>';
+            OutText += Text;
         end;
     end;
+
+    internal procedure SetExpectedResponseSchema(Value: Text)
+    var
+        OutStr: OutStream;
+    begin
+        Clear(Rec.ExpectedResponseSchema);
+        Rec.ExpectedResponseSchema.CreateOutStream(OutStr);
+        OutStr.WriteText(Value);
+        Rec.Modify(true);
+    end;
+    #endregion
+
+    #region Completion
+    internal procedure Complete(): Text
+    var
+        ExecuteTestPrompt: Codeunit ExecuteTestPrompt;
+    begin
+        exit(ExecuteTestPrompt.Call(Rec.GetSystemPrompt(), Rec.GetUserPrompt()));
+    end;
+
+    internal procedure TestCompletionWithSchema(Completion: Text) IsSuccess: Boolean
+    var
+        ISchemaTester: Interface ISchemaTester;
+    begin
+        ISchemaTester := Rec.ExpectedResponseType;
+        ISchemaTester.LoadSchema(Rec.GetExpectedResponseSchema());
+        IsSuccess := ISchemaTester.Test(Completion);
+    end;
+    #endregion
+
+    #region BCPT
+    internal procedure PrepareBCPTSuiteForPrompt()
+    var
+        BCPTTestSuite: Codeunit "BCPT Test Suite";
+        LineDescLbl: Label 'Complete a prompt and test it.', MaxLength = 50;
+        SuiteDescLbl: Label 'Suite for testing OpenAI Prompts', MaxLength = 50;
+    begin
+        BCPTTestSuite.CreateUpdateTestSuiteHeader(Rec.PromptCode, SuiteDescLbl, 1, 100, 1000, 10, 'Base');
+        if not BCPTTestSuite.TestSuiteLineExists(Rec.PromptCode, Codeunit::PromptTestBCPT) then
+            BCPTTestSuite.AddLineToTestSuiteHeader(Rec.PromptCode, Codeunit::PromptTestBCPT, Rec.NoOfTestRuns, LineDescLbl, 100, 1000, 1, false, Rec.PromptCode);
+    end;
+    #endregion
 }

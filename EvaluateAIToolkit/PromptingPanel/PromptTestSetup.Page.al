@@ -1,6 +1,6 @@
-page 70102 PromptTechnicalTest
+page 70102 PromptTestSetup
 {
-    Caption = 'Test Prompt';
+    Caption = 'Prompt Test Setup';
     PageType = Card;
     ApplicationArea = All;
     UsageCategory = None;
@@ -42,7 +42,7 @@ page 70102 PromptTechnicalTest
     {
         area(Processing)
         {
-            action(GetResponseStructure)
+            action(GetResponseSchema)
             {
                 Caption = 'Get Response Schema';
                 ToolTip = 'Uses GPT to extract the expected schema out of the system prompt';
@@ -50,14 +50,12 @@ page 70102 PromptTechnicalTest
 
                 trigger OnAction()
                 var
-                    ExtractResponseStructure: Codeunit ExtractResponseStructure;
+                    ExtractResponseSchema: Codeunit ExtractResponseSchema;
                 begin
-                    ExtractResponseStructure.Call(Rec.GetSystemPrompt(), Rec);
+                    ExtractResponseSchema.Call(Rec.GetSystemPrompt(), Rec);
                     CurrPage.Update(false);
                 end;
             }
-
-
         }
         area(Promoted)
         {
@@ -65,7 +63,7 @@ page 70102 PromptTechnicalTest
             {
                 Caption = 'Process';
 
-                actionref(GetResponseStructure_Promoted; GetResponseStructure) { }
+                actionref(GetResponseSchema_Promoted; GetResponseSchema) { }
             }
         }
     }

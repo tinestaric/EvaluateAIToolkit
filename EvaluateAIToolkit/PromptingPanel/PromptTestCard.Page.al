@@ -14,6 +14,11 @@ page 70101 PromptTestCard
                 Caption = 'Prompt';
 
                 field(PromptCode; Rec.PromptCode) { }
+            }
+            group(DescriptionGroup)
+            {
+                ShowCaption = false;
+
                 field(Description; Rec.Description)
                 {
                     MultiLine = true;
@@ -85,19 +90,47 @@ page 70101 PromptTestCard
                 Image = SparkleFilled;
 
                 trigger OnAction()
-                var
-                    ExecuteTestPrompt: Codeunit ExecuteTestPrompt;
                 begin
-                    _Completion := ExecuteTestPrompt.Call(Rec.GetSystemPrompt(), Rec.GetUserPrompt());
+                    _Completion := Rec.Complete();
+                end;
+            }
+            action(TestPrompt)
+            {
+                Caption = 'Test Completion Structure';
+                ToolTip = 'Compare the expected schema with the actual schema of the completion';
+                Image = TestFile;
+
+                trigger OnAction()
+                var
+                    IsSuccess: Boolean;
+                begin
+                    _Completion := Rec.Complete();
+                    IsSuccess := Rec.TestCompletionWithSchema(_Completion);
+
+                    Message('Test Completion Structure: %1', IsSuccess);
                 end;
             }
 
-            action(TechnicalTest)
+            action(BatchTest)
             {
-                Caption = 'Technical Test';
-                ToolTip = 'Tests the completions for technical compatibility. (i.e. does it return a valid JSON format).';
-                Image = TestDatabase;
-                RunObject = Page PromptTechnicalTest;
+                Caption = 'Batch Test';
+                ToolTip = 'Send multiple prompts to the system and compare the expected schema with the actual schema of the completion';
+                Image = ChangeBatch;
+
+                trigger OnAction()
+                var
+                    BCPTSetupList: Page "BCPT Setup List";
+                begin
+                    Rec.PrepareBCPTSuiteForPrompt();
+                    BCPTSetupList.Run();
+                end;
+            }
+            action(TestSetup)
+            {
+                Caption = 'Test Setup';
+                ToolTip = 'Setup Technical and Semantical testing of completions';
+                Image = Setup;
+                RunObject = Page PromptTestSetup;
                 RunPageOnRec = true;
             }
         }
@@ -108,7 +141,8 @@ page 70101 PromptTestCard
                 Caption = 'Process';
 
                 actionref(RunPrompt_Promoted; RunPrompt) { }
-                actionref(TechnicalTest_Promoted; TechnicalTest) { }
+                actionref(TestPrompt_Promoted; TestPrompt) { }
+                actionref(BatchTest_Promoted; BatchTest) { }
             }
         }
     }

@@ -5,7 +5,7 @@ codeunit 70108 SchemaTesterXML implements ISchemaTester
         // do nothing
     end;
 
-    procedure Test(Completion: Text)
+    procedure Test(Completion: Text) IsSuccess: Boolean
     begin
         // do nothing
     end;
