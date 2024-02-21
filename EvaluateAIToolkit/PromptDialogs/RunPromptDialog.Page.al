@@ -17,7 +17,7 @@ page 70105 RunPromptDialog
     {
         area(Prompt)
         {
-            field(UserPrompt; _UserPrompt)
+            field(UserPromptField; _UserPrompt)
             {
                 ShowCaption = false;
                 MultiLine = true;
@@ -71,8 +71,9 @@ page 70105 RunPromptDialog
     }
 
     var
-        _PromptTest: Record PromptTest;
+        _ISimplePrompt: Interface ISimplePrompt;
         _UserPrompt: Text;
+        _SystemPrompt: Text;
         _GenerationIdInputText: Text;
         _Completion: Text;
 
@@ -81,10 +82,15 @@ page 70105 RunPromptDialog
         _GenerationIdInputText := Rec."Value Long";
     end;
 
-    internal procedure SetPromptTest(PromptTest: Record PromptTest)
+    internal procedure SetPrompts(SystemPrompt: Text; UserPrompt: Text)
     begin
-        _PromptTest := PromptTest;
-        _UserPrompt := _PromptTest.GetDefaultUserPrompt();
+        _SystemPrompt := SystemPrompt;
+        _UserPrompt := UserPrompt;
+    end;
+
+    internal procedure SetPromptType(ISimplePrompt: Interface ISimplePrompt)
+    begin
+        _ISimplePrompt := ISimplePrompt;
     end;
 
     internal procedure GetCompletion(): Text
@@ -94,7 +100,7 @@ page 70105 RunPromptDialog
 
     local procedure GenerateCompletion()
     begin
-        _Completion := _PromptTest.Complete(_UserPrompt);
+        _Completion := _ISimplePrompt.ExecutePrompt(_SystemPrompt, _UserPrompt);
         SaveCompletionHistory();
     end;
 

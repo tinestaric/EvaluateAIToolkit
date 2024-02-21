@@ -16,6 +16,7 @@ page 70103 PromptTestResultList
             {
                 field(LineNo; Rec.LineNo) { }
                 field(VersionNo; Rec.VersionNo) { }
+                field(Type; Rec.Type) { }
                 field(IsSuccess; Rec.IsSuccess) { }
                 field(ErrorMessage; Rec.ErrorMessage) { }
                 field(SystemCreatedAt; Rec.SystemCreatedAt) { Caption = 'Timestamp'; }

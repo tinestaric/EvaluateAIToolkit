@@ -43,6 +43,10 @@ table 70100 PromptTest
             InitValue = 1;
             Caption = 'Version';
         }
+        field(90; ValidationPrompt; Blob)
+        {
+            Caption = 'Validation Prompt';
+        }
     }
 
     keys
@@ -89,6 +93,15 @@ table 70100 PromptTest
         exit(ReadBlob(InStr));
     end;
 
+    internal procedure GetValidationPrompt(): Text
+    var
+        InStr: InStream;
+    begin
+        Rec.CalcFields(ValidationPrompt);
+        Rec.ValidationPrompt.CreateInStream(InStr);
+        exit(ReadBlob(InStr));
+    end;
+
     local procedure ReadBlob(InStr: InStream) OutText: Text
     var
         Text: Text;
@@ -120,6 +133,16 @@ table 70100 PromptTest
         OutStr.WriteText(Value);
         Rec.Modify(true);
     end;
+
+    internal procedure SetValidationPrompt(Value: Text)
+    var
+        OutStr: OutStream;
+    begin
+        Clear(Rec.ValidationPrompt);
+        Rec.ValidationPrompt.CreateOutStream(OutStr);
+        OutStr.WriteText(Value);
+        Rec.Modify(true);
+    end;
     #endregion
 
     #region Completion
@@ -127,22 +150,38 @@ table 70100 PromptTest
     var
         ExecuteTestPrompt: Codeunit ExecuteTestPrompt;
     begin
-        exit(ExecuteTestPrompt.Call(Rec.GetSystemPrompt(), UserPrompt));
+        exit(ExecuteTestPrompt.ExecutePrompt(Rec.GetSystemPrompt(), UserPrompt));
     end;
 
-    internal procedure TestCompletionWithSchema(Completion: Text; UserPromptText: Text) IsSuccess: Boolean
+    internal procedure TestCompletion(Completion: Text; UserPromptText: Text) IsSuccess: Boolean
     var
         ResultLogger: Codeunit ResultLogger;
-        ISchemaTester: Interface ISchemaTester;
         ErrorMessage: Text;
     begin
         ResultLogger.Initialize(Rec, Completion, UserPromptText);
 
+        IsSuccess := TestCompletionWithSchema(Completion, ErrorMessage);
+        ResultLogger.LogSchemaValidationResult(IsSuccess, ErrorMessage);
+
+        Clear(ErrorMessage);
+        IsSuccess := TestCompletionWithValidationPrompt(Completion, ErrorMessage);
+        ResultLogger.LogSchemaValidationResult(IsSuccess, ErrorMessage);
+    end;
+
+    internal procedure TestCompletionWithSchema(Completion: Text; var ErrorMessage: Text) IsSuccess: Boolean
+    var
+        ISchemaTester: Interface ISchemaTester;
+    begin
         ISchemaTester := Rec.ExpectedResponseType;
         ISchemaTester.LoadSchema(Rec.GetExpectedResponseSchema());
         IsSuccess := ISchemaTester.Test(Completion, ErrorMessage);
+    end;
 
-        ResultLogger.LogResult(IsSuccess, ErrorMessage);
+    internal procedure TestCompletionWithValidationPrompt(CompletionToValidate: Text; var ErrorMessage: Text) IsSuccess: Boolean
+    var
+        ValidationPromptCheck: Codeunit ValidationPromptCheck;
+    begin
+        IsSuccess := ValidationPromptCheck.ValidateCompletion(Rec.GetValidationPrompt(), CompletionToValidate, ErrorMessage);
     end;
     #endregion
 

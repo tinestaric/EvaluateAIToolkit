@@ -38,6 +38,10 @@ table 70101 PromptTestResult
         {
             Caption = 'Error Message';
         }
+        field(70; Type; Enum PromptValidationType)
+        {
+            Caption = 'Validation Type';
+        }
     }
 
     keys

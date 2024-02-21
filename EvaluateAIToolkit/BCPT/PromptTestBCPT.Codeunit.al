@@ -22,7 +22,7 @@ codeunit 70109 PromptTestBCPT implements "BCPT Test Param. Provider"
         BCPTTestContext.EndScenario('Create a Completion of the prompt');
 
         BCPTTestContext.StartScenario('Validate the Completion');
-        PromptTest.TestCompletionWithSchema(Completion, PromptTest.GetDefaultUserPrompt());
+        PromptTest.TestCompletion(Completion, PromptTest.GetDefaultUserPrompt());
         BCPTTestContext.EndScenario('Validate the Completion');
 
         BCPTTestContext.EndScenario('Testing prompt: ' + PromptToTest);

@@ -6,7 +6,7 @@ using EvaluateAIToolkit.Helpers;
 
 codeunit 70103 ExtractResponseSchema
 {
-    procedure Call(SysPromptToProcess: Text; var PromptTest: Record PromptTest)
+    procedure ExecutePrompt(SysPromptToProcess: Text; var PromptTest: Record PromptTest)
     var
         AOAIWrapper: Codeunit AOAIWrapper;
         SystemPrompt: Text;

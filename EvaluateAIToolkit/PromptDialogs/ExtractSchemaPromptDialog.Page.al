@@ -108,7 +108,7 @@ page 70106 ExtractSchemaPromptDialog
     var
         ExtractResponseSchema: Codeunit ExtractResponseSchema;
     begin
-        ExtractResponseSchema.Call(_PromptTest.GetSystemPrompt(), _PromptTest);
+        ExtractResponseSchema.ExecutePrompt(_PromptTest.GetSystemPrompt(), _PromptTest);
         _Completion := _PromptTest.GetExpectedResponseSchema();
         _SchemaType := _PromptTest.ExpectedResponseType;
     end;

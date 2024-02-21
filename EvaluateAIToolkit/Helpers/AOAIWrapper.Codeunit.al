@@ -4,6 +4,10 @@ using System.AI;
 
 codeunit 70102 AOAIWrapper
 {
+    var
+        IAOAIDeployment: Interface IAOAIDeployment;
+        DeploymentSet: Boolean;
+
     [NonDebuggable]
     internal procedure GenerateResponse(SystemPrompt: Text; UserPrompt: Text): Text
     var
@@ -16,9 +20,15 @@ codeunit 70102 AOAIWrapper
         if not AzureOpenAI.IsEnabled("Copilot Capability"::EvaluateAIToolkit) then
             exit;
 
+        GetDeploymentInstance();
         CheckInputLength(SystemPrompt, UserPrompt);
 
-        AzureOpenAI.SetAuthorization("AOAI Model Type"::"Chat Completions", GetEndpoint(), GetDeployment(), GetSecret());
+        AzureOpenAI.SetAuthorization(
+            "AOAI Model Type"::"Chat Completions",
+            IAOAIDeployment.GetEndpoint(),
+            IAOAIDeployment.GetDeployment(),
+            IAOAIDeployment.GetAPIKey()
+        );
         AzureOpenAI.SetCopilotCapability("Copilot Capability"::EvaluateAIToolkit);
         AOAIChatCompletionParams.SetMaxTokens(MaxOutputTokens());
         AOAIChatCompletionParams.SetTemperature(0);
@@ -35,33 +45,12 @@ codeunit 70102 AOAIWrapper
 
     internal procedure MaxInputTokens(): Integer
     begin
-        exit(MaxModelTokens() - MaxOutputTokens());
+        exit(IAOAIDeployment.MaxModelTokens() - MaxOutputTokens());
     end;
 
     local procedure MaxOutputTokens(): Integer
     begin
         exit(2500);
-    end;
-
-    local procedure MaxModelTokens(): Integer
-    begin
-        exit(4096); //GPT 3.5 Turbo
-    end;
-
-    //TODO: Interface and less hardcode
-    local procedure GetEndpoint(): Text
-    begin
-        exit('https://bcaihackathon.openai.azure.com/');
-    end;
-
-    local procedure GetDeployment(): Text
-    begin
-        exit('gpt-35-turbo');
-    end;
-
-    [NonDebuggable]
-    local procedure GetSecret(): Text
-    begin
     end;
 
     local procedure CheckInputLength(SystemPrompt: Text; UserPrompt: Text)
@@ -72,5 +61,22 @@ codeunit 70102 AOAIWrapper
         CompletePromptTokenCount := TokenCountImpl.PreciseTokenCount(SystemPrompt) + TokenCountImpl.PreciseTokenCount(UserPrompt);
         if CompletePromptTokenCount > MaxInputTokens() then
             Error('The input token count is too large. Shorten your prompts.');
+    end;
+
+    local procedure GetDeploymentInstance()
+    var
+        gpt35turbo: Codeunit gpt432k;
+    begin
+        if DeploymentSet then
+            exit;
+
+        IAOAIDeployment := gpt35turbo;
+        DeploymentSet := true;
+    end;
+
+    internal procedure SetDeploymentInstance(DeploymentInstance: Interface IAOAIDeployment)
+    begin
+        IAOAIDeployment := DeploymentInstance;
+        DeploymentSet := true;
     end;
 }

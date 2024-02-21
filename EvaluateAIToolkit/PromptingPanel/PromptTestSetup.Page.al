@@ -18,11 +18,11 @@ page 70102 PromptTestSetup
                 field(ExpectedResponseType; Rec.ExpectedResponseType) { }
                 field(NoOfTestRuns; Rec.NoOfTestRuns) { }
             }
-            group(ResponseStructureGroup)
+            group(ResponseSchemaGroup)
             {
-                Caption = 'Expected Response Structure';
+                Caption = 'Expected Response Schema';
 
-                field(ExpectedResponseStructure; _ExpectedResponseSchema)
+                field(ExpectedResponseSchema; _ExpectedResponseSchema)
                 {
                     ShowCaption = false;
                     ExtendedDatatype = RichContent;
@@ -34,7 +34,22 @@ page 70102 PromptTestSetup
                     end;
                 }
             }
+            group(ValidationPromptGroup)
+            {
+                Caption = 'Validation Prompt';
 
+                field(ValidationPrompt; _ValidationPrompt)
+                {
+                    ShowCaption = false;
+                    ExtendedDatatype = RichContent;
+                    MultiLine = true;
+
+                    trigger OnValidate()
+                    begin
+                        Rec.SetExpectedResponseSchema(_ExpectedResponseSchema);
+                    end;
+                }
+            }
         }
     }
 
@@ -42,6 +57,38 @@ page 70102 PromptTestSetup
     {
         area(Processing)
         {
+            action(TestSchema)
+            {
+                Caption = 'Test Schema';
+                ToolTip = 'Tests the completion against the expected schema';
+                Image = TestDatabase;
+
+                trigger OnAction()
+                var
+                    ErrorMessage: Text;
+                    IsSuccess: Boolean;
+                begin
+                    IsSuccess := Rec.TestCompletionWithSchema(Rec.Complete(Rec.GetDefaultUserPrompt()), ErrorMessage);
+                    Message('Is Test Successful: %1\\ Error Message: %2', IsSuccess, ErrorMessage);
+                end;
+            }
+            action(TestValidationPrompt)
+            {
+                Caption = 'Test Validation Prompt';
+                ToolTip = 'Tests the completion against the validation prompt';
+                Image = TestFile;
+
+                trigger OnAction()
+                var
+                    ValidationPromptCheck: Codeunit ValidationPromptCheck;
+                    IsSuccess: Boolean;
+                    ErrorMessage: Text;
+                begin
+                    ValidationPromptCheck.SetShowUI(true);
+                    IsSuccess := ValidationPromptCheck.ValidateCompletion(Rec.Complete(Rec.GetDefaultUserPrompt()), Rec.GetValidationPrompt(), ErrorMessage);
+                    Message('Is Test Successful: %1\\ Error Message: %2', IsSuccess, ErrorMessage);
+                end;
+            }
             action(GetResponseSchema)
             {
                 Caption = 'Get Response Schema';
@@ -56,6 +103,20 @@ page 70102 PromptTestSetup
                     ExtractSchemaPromptDialog.RunModal();
                 end;
             }
+            action(GetValidationPrompt)
+            {
+                Caption = 'Get Validation Prompt';
+                ToolTip = 'Uses GPT to extract the validation prompt out of the system prompt';
+                Image = SparkleFilled;
+
+                trigger OnAction()
+                var
+                    CreateValidationPrompt: Codeunit CreateValidationPrompt;
+                begin
+                    CreateValidationPrompt.RunPrompt(Rec);
+                    CurrPage.Update(false);
+                end;
+            }
         }
         area(Promoted)
         {
@@ -63,13 +124,15 @@ page 70102 PromptTestSetup
             {
                 Caption = 'Process';
 
-                actionref(GetResponseSchema_Promoted; GetResponseSchema) { }
+                actionref(TestSchema_Promoted; TestSchema) { }
+                actionref(TestValidationPrompt_Promoted; TestValidationPrompt) { }
             }
         }
     }
 
     var
         _ExpectedResponseSchema: Text;
+        _ValidationPrompt: Text;
 
     trigger OnAfterGetCurrRecord()
     begin
@@ -79,7 +142,6 @@ page 70102 PromptTestSetup
     local procedure GetTextFromBlobs()
     begin
         _ExpectedResponseSchema := Rec.GetExpectedResponseSchema();
+        _ValidationPrompt := Rec.GetValidationPrompt();
     end;
-
-
 }

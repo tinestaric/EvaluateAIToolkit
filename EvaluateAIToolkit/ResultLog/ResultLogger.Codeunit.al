@@ -13,8 +13,19 @@ codeunit 70110 ResultLogger
         PromptTestResult.SetUserPrompt(UserPrompt);
     end;
 
-    internal procedure LogResult(IsSuccess: Boolean; ErrorMessage: Text)
+    internal procedure LogSchemaValidationResult(IsSuccess: Boolean; ErrorMessage: Text)
     begin
+        PromptTestResult.LineNo := 0;
+        PromptTestResult.Type := PromptTestResult.Type::SchemaValidation;
+        PromptTestResult.IsSuccess := IsSuccess;
+        PromptTestResult.ErrorMessage := CopyStr(ErrorMessage, 1, MaxStrLen(PromptTestResult.ErrorMessage));
+        PromptTestResult.Insert(true);
+    end;
+
+    internal procedure LogValidationPromptResult(IsSuccess: Boolean; ErrorMessage: Text)
+    begin
+        PromptTestResult.LineNo := 0;
+        PromptTestResult.Type := PromptTestResult.Type::ValidationPrompt;
         PromptTestResult.IsSuccess := IsSuccess;
         PromptTestResult.ErrorMessage := CopyStr(ErrorMessage, 1, MaxStrLen(PromptTestResult.ErrorMessage));
         PromptTestResult.Insert(true);

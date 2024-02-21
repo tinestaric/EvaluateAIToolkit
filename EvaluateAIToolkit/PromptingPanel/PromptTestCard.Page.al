@@ -78,7 +78,6 @@ page 70101 PromptTestCard
                     ShowCaption = false;
                     ExtendedDatatype = RichContent;
                     MultiLine = true;
-                    Editable = false;
                 }
             }
         }
@@ -96,16 +95,14 @@ page 70101 PromptTestCard
 
                 trigger OnAction()
                 var
-                    RunPromptDialog: Page RunPromptDialog;
+                    ExecuteTestPrompt: Codeunit ExecuteTestPrompt;
                 begin
-                    RunPromptDialog.SetPromptTest(Rec);
-                    if RunPromptDialog.RunModal() = Action::OK then
-                        _Completion := RunPromptDialog.GetCompletion();
+                    ExecuteTestPrompt.RunDialog(_Completion, Rec);
                 end;
             }
-            action(TestPrompt)
+            action(TestCompletion)
             {
-                Caption = 'Test Completion Structure';
+                Caption = 'Test Completion';
                 ToolTip = 'Compare the expected schema with the actual schema of the completion';
                 Image = TestFile;
 
@@ -113,10 +110,12 @@ page 70101 PromptTestCard
                 var
                     IsSuccess: Boolean;
                 begin
-                    _Completion := Rec.Complete(Rec.GetDefaultUserPrompt());
-                    IsSuccess := Rec.TestCompletionWithSchema(_Completion, Rec.GetDefaultUserPrompt());
+                    if _Completion = '' then
+                        _Completion := Rec.Complete(Rec.GetDefaultUserPrompt());
 
-                    Message('Test Completion Structure: %1', IsSuccess);
+                    IsSuccess := Rec.TestCompletion(_Completion, Rec.GetDefaultUserPrompt());
+
+                    Message('Prompt Validation Passed: %1', IsSuccess);
                 end;
             }
 
@@ -161,7 +160,7 @@ page 70101 PromptTestCard
                 Caption = 'Process';
 
                 actionref(RunPrompt_Promoted; RunPrompt) { }
-                actionref(TestPrompt_Promoted; TestPrompt) { }
+                actionref(TestPrompt_Promoted; TestCompletion) { }
                 actionref(BatchTest_Promoted; BatchTest) { }
             }
         }
