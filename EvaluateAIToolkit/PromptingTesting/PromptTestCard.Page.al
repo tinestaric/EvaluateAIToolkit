@@ -45,14 +45,16 @@ page 70101 PromptTestCard
                     Editable = false;
                     Caption = 'Validation Pass Rate';
                 }
-            }
-            group(DescriptionGroup)
-            {
-                ShowCaption = false;
 
-                field(Description; Rec.Description)
+                group(DescriptionGroup)
                 {
-                    MultiLine = true;
+                    Caption = 'Description';
+
+                    field(Description; Rec.Description)
+                    {
+                        ShowCaption = false;
+                        MultiLine = true;
+                    }
                 }
             }
             group(SystemPromptGroup)

@@ -21,11 +21,14 @@ page 70104 PromptTestResultCard
                 field(IsSuccess; Rec.IsSuccess) { }
                 field(SystemCreatedAt; Rec.SystemCreatedAt) { Caption = 'Timestamp'; }
                 field(Deployment; Rec.Deployment) { }
+
                 group(ErrorMessageGroup)
                 {
-                    ShowCaption = false;
+                    Caption = 'Error Message';
+
                     field(ErrorMessage; Rec.ErrorMessage)
                     {
+                        ShowCaption = false;
                         trigger OnAssistEdit()
                         begin
                             Message(Rec.ErrorMessage);
@@ -33,6 +36,7 @@ page 70104 PromptTestResultCard
                     }
                 }
             }
+
             group(SystemPromptGroup)
             {
                 Caption = 'System Prompt';
