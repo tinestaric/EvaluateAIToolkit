@@ -1,0 +1,66 @@
+{
+	"folders": [
+		{
+			"name": "Toolkit",
+			"path": "EvaluateAIToolkit",
+			"xliffSync.baseFile": "EvaluateAIToolkit.g.xlf"
+		},
+		{
+			"name": "Sample",
+			"path": "SendEmailToCustomer",
+			"xliffSync.baseFile": "SendEmailToCustomer.g"
+		}
+	],
+	"settings": {
+		"al.enableCodeAnalysis": true,
+		"al.codeAnalyzers": [		
+			"${CodeCop}",
+			//"${AppSourceCop}",
+			"${UICop}",
+			"../VSCodeSettings/CompanialCopAnalyzer.dll"
+		],
+		"al.ruleSetPath": "../VSCodeSettings/Custom.ruleset.json",
+
+		"cSpell.enableFiletypes": [
+			"al",
+			"!json",
+			"!md"
+		],
+		"cSpell.language": "en",
+		"cSpell.customDictionaries": {
+			"custom-dictionary-workspace": {
+				"name": "custom-dictionary-workspace",
+				"path": "../../VSCodeSettings/custom-dictionary-words.txt",
+				"addWords": true
+			}
+		},
+		"editor.rulers": [
+			{
+				"column": 120,
+				"color": "#1269a3"
+			}
+		],
+		"editor.foldingMaximumRegions": 65000,
+		"todo-tree.general.tags": [
+			"ToDo",
+			"TODO"
+		]
+	},
+	"extensions": {
+		"recommendations": [
+			"andrzejzwierzchowski.al-code-outline",
+			"BartPermentier.al-toolbox",
+			"davidfeldhoff.al-codeactions",
+			"ms-dynamics-smb.al",
+			"nabsolutions.nab-al-tools",
+			"nwallace.createGUID",
+			"rasmus.al-var-helper",
+			"vjeko.vjeko-al-objid",
+			"rvanbekkum.xliff-sync",
+			"waldo.al-extension-pack",
+			"wbrakowski.al-navigator",
+			"wayou.vscode-todo-highlight",
+			"waldo.crs-al-language-extension"			
+		]
+	}
+}
