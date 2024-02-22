@@ -12,14 +12,12 @@ codeunit 60100 CustEmailGenerationImpl
         CompletePromptTokenCount := TokenCountImpl.PreciseTokenCount(SystemPromptTxt) + TokenCountImpl.PreciseTokenCount(InputText);
         if CompletePromptTokenCount <= MaxInputTokens() then begin
             Completion := GenerateEmail(SystemPromptTxt, InputText);
-            // if CheckIfValidCompletion(Completion) then begin
             SaveGenerationHistory(GenerationId, InputText);
-            CreateEmail(GenerationId, GeneratedEmail, Completion);
-            // end;
+            InsertGeneratedEmail(GeneratedEmail, Completion, GenerationId.ID);
         end;
     end;
 
-    // [NonDebuggable]
+    [NonDebuggable]
     internal procedure GenerateEmail(SystemPromptTxt: Text; InputText: Text): Text
     var
         AzureOpenAI: Codeunit "Azure OpenAi";
@@ -65,22 +63,6 @@ codeunit 60100 CustEmailGenerationImpl
         SystemPrompt.AppendLine('User might add additional instructions on how to word the email.');
         SystemPrompt.AppendLine('Try to fullfil them.');
         SystemPrompt.AppendLine();
-        // SystemPrompt.AppendLine('IMPORTANT!');
-        // SystemPrompt.AppendLine('Don''t add comments.');
-        // SystemPrompt.AppendLine('Fill all fields.');
-        // SystemPrompt.AppendLine('Always respond in the next JSON format:');
-        // SystemPrompt.AppendLine('''''''');
-        // SystemPrompt.AppendLine('[');
-        // SystemPrompt.AppendLine('    {');
-        // SystemPrompt.AppendLine('        "greeting": "string",');
-        // SystemPrompt.AppendLine('        "content": "string",');
-        // SystemPrompt.AppendLine('        "signature": "string"');
-        // SystemPrompt.AppendLine('    }');
-        // SystemPrompt.AppendLine(']');
-        // SystemPrompt.AppendLine('''''''');
-        // SystemPrompt.AppendLine();
-        // SystemPrompt.AppendLine('If you can''t answer or don''t know the answer, respond with: []');
-        // SystemPrompt.AppendLine('Your answer in a JSON format: [');
         exit(SystemPrompt.ToText());
     end;
 
@@ -111,7 +93,6 @@ codeunit 60100 CustEmailGenerationImpl
     [NonDebuggable]
     local procedure GetSecret(): Text
     begin
-        exit('7c77ad4735014e38b4336e578f78e938');
     end;
 
     local procedure MaxInputTokens(): Integer
@@ -129,31 +110,6 @@ codeunit 60100 CustEmailGenerationImpl
         exit(4096); //GPT 3.5 Turbo
     end;
 
-    local procedure CreateEmail(var GenerationId: Record "Name/Value Buffer"; var GeneratedEmail: Record GeneratedEmail; Completion: Text)
-    var
-    // JSONManagement: Codeunit "JSON Management";
-    // EmailObject: Text;
-    // i: Integer;
-    begin
-        // JSONManagement.InitializeCollection(Completion);
-
-        // for i := 0 to JSONManagement.GetCollectionCount() - 1 do begin
-        //     JSONManagement.GetObjectFromCollectionByIndex(EmailObject, i);
-
-        //     InsertGeneratedEmail(GeneratedEmail, EmailObject, GenerationId.ID);
-        // end;
-
-        InsertGeneratedEmail(GeneratedEmail, Completion, GenerationId.ID);
-    end;
-
-    // [TryFunction]
-    // local procedure CheckIfValidCompletion(Completion: Text)
-    // var
-    //     JsonArray: JsonArray;
-    // begin
-    //     JsonArray.ReadFrom(Completion);
-    // end;
-
     local procedure SaveGenerationHistory(var GenerationId: Record "Name/Value Buffer"; InputText: Text)
     begin
         GenerationId.ID += 1;
@@ -162,31 +118,10 @@ codeunit 60100 CustEmailGenerationImpl
     end;
 
     local procedure InsertGeneratedEmail(var GeneratedEmail: Record GeneratedEmail; EmailObj: Text; GenerationId: Integer)
-    var
-    // JSONManagement: Codeunit "JSON Management";
-    // RecRef: RecordRef;
     begin
         GeneratedEmail.Init();
         GeneratedEmail.GenerationId := GenerationId;
-        GeneratedEmail.Content := CopyStr(EmailObj, 1, MaxStrLen(GeneratedEmail.Content));
+        GeneratedEmail.SetContent(EmailObj);
         GeneratedEmail.Insert(true);
-
-        // JSONManagement.InitializeObject(EmailObj);
-
-        // RecRef.GetTable(GeneratedEmail);
-        // RecRef.Init();
-        // SetGenerationId(RecRef, GenerationId, GeneratedEmail.FieldNo(GenerationId));
-        // JSONManagement.GetValueAndSetToRecFieldNo(RecRef, 'greeting', GeneratedEmail.FieldNo(Greeting));
-        // JSONManagement.GetValueAndSetToRecFieldNo(RecRef, 'content', GeneratedEmail.FieldNo(Content));
-        // JSONManagement.GetValueAndSetToRecFieldNo(RecRef, 'signature', GeneratedEmail.FieldNo(Signature));
-        // RecRef.Insert(true);
     end;
-
-    // local procedure SetGenerationId(var RecRef: RecordRef; GenerationId: Integer; FieldNo: Integer)
-    // var
-    //     FieldRef: FieldRef;
-    // begin
-    //     FieldRef := RecRef.Field(FieldNo);
-    //     FieldRef.Value(GenerationId);
-    // end;
 }

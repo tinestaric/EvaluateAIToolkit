@@ -9,6 +9,11 @@
 			"name": "Sample",
 			"path": "SendEmailToCustomer",
 			"xliffSync.baseFile": "SendEmailToCustomer.g"
+		},
+		{
+			"name": "Sample-Test",
+			"path": "SendEmailToCustomer-Test",
+			"xliffSync.baseFile": "SendEmailToCustomer-test.g"
 		}
 	],
 	"settings": {

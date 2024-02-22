@@ -5,7 +5,7 @@ page 60100 CustomerEmailGeneration
     PageType = PromptDialog;
     IsPreview = true;
     Extensible = false;
-    // PromptMode = Content;
+    PromptMode = Prompt;
     ApplicationArea = All;
     Editable = true;
     SourceTable = "Name/Value Buffer";
@@ -21,23 +21,24 @@ page 60100 CustomerEmailGeneration
             {
                 ShowCaption = false;
                 MultiLine = true;
-                ApplicationArea = All;
-
-                trigger OnValidate()
-                begin
-                    CurrPage.Update();
-                end;
             }
         }
         area(Content)
         {
-            field(GeneratedEmail; GeneratedEmail)
+            group(GeneratedEmailGroup)
             {
-                Caption = 'Generated Email';
-                ToolTip = 'The generated email';
-                ApplicationArea = All;
-                Editable = true;
-                Enabled = true;
+                ShowCaption = false;
+
+                field(GeneratedEmail; GeneratedEmail)
+                {
+                    Caption = 'Generated Email';
+                    MultiLine = true;
+                    ExtendedDatatype = RichContent;
+                    trigger OnValidate()
+                    begin
+                        GeneratedEmailSet.SetContent(GeneratedEmail);
+                    end;
+                }
             }
         }
     }
@@ -84,7 +85,8 @@ page 60100 CustomerEmailGeneration
     trigger OnAfterGetCurrRecord()
     begin
         GenerationIdInputText := Rec."Value Long";
-        if GeneratedEmailSet.Get(Rec.ID) then;
+        if GeneratedEmailSet.Get(Rec.ID) then
+            GeneratedEmail := GeneratedEmailSet.GetContent();
     end;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
@@ -104,7 +106,7 @@ page 60100 CustomerEmailGeneration
         CustEmailGenerationImpl: Codeunit CustEmailGenerationImpl;
     begin
         CustEmailGenerationImpl.Generate(Rec, GeneratedEmailSet, InputText, InvoiceNo);
-        GeneratedEmail := GeneratedEmailSet.Content;
+        GeneratedEmail := GeneratedEmailSet.GetContent();
     end;
 
     local procedure SendEmail()

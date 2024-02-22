@@ -2,7 +2,7 @@ namespace AISample.Common;
 
 using System.AI;
 
-codeunit 50100 "Register Capability"
+codeunit 60102 "Register Capability"
 {
     Subtype = Install;
     InherentEntitlements = X;

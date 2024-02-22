@@ -2,7 +2,7 @@ namespace AISample.PromptDialog;
 
 using Microsoft.Sales.History;
 
-pageextension 50100 SalesInvoiceListExt extends "Posted Sales Invoices"
+pageextension 60100 SalesInvoiceListExt extends "Posted Sales Invoices"
 {
     actions
     {

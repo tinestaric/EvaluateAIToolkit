@@ -1,22 +1,22 @@
 {
-  "id": "d002b6d9-8195-44dc-a7a3-53b3bde223d2",
-  "name": "EvaluateAIToolkit",
+  "id": "0347b04b-70ed-4fcf-b38d-cb7d5a1947d1",
+  "name": "SendEmailToCustomer-Test",
   "publisher": "Tine&Berny",
   "version": "1.0.0.0",
-  "brief": "Toolkit for Evaluating and rapid prototyping of AI features.",
-  "description": "Toolkit for Evaluating and rapid prototyping of AI features.",
+  "brief": "Test app that tests the email sending functionality with Evaluate AI Toolkit.",
+  "description": "This app is a test app that tests the email sending functionality with Evaluate AI Toolkit. It is used to test the functionality of the Evaluate AI Toolkit.",
   "privacyStatement": "https://example.com/",
   "EULA": "https://example.com/",
   "help": "https://example.com/",
   "url": "https://example.com/",
   "contextSensitiveHelpUrl": "https://example.com/",
   "logo": "../Resources/logo.jpeg",
-  "dependencies": [
+  "dependencies": [    
     {
-      "id":  "75f1590f-55c5-4501-ae63-bada5534e852",
-      "publisher":  "Microsoft",
-      "name":  "Performance Toolkit",
-      "version":  "23.0.0.0"
+    "id":  "d002b6d9-8195-44dc-a7a3-53b3bde223d2",
+    "publisher":  "Tine&Berny",
+    "name":  "EvaluateAIToolkit",
+    "version":  "1.0.0.0"
     }
   ],
   "screenshots": [],
@@ -24,8 +24,8 @@
   "application": "23.0.0.0",
   "idRanges": [
     {
-      "from": 70100,
-      "to": 70599
+      "from": 60600,
+      "to": 60999
     }
   ],
   "resourceExposurePolicy": {
@@ -39,5 +39,5 @@
     "NoPromotedActionProperties",
     "TranslationFile"
   ],
-  "applicationInsightsConnectionString": "InstrumentationKey=6fc8248a-52bb-4159-8a5d-faebe5385476;IngestionEndpoint=https://swedencentral-0.in.applicationinsights.azure.com/"
+  "applicationInsightsConnectionString": "InstrumentationKey=00000000-0000-0000-0000-000000000000"
 }
