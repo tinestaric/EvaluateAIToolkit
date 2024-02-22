@@ -18,7 +18,7 @@ page 70102 PromptTestSetup
                 field(ExpectedResponseType; Rec.ExpectedResponseType) { }
                 field(NoOfTestRuns; Rec.NoOfTestRuns) { }
                 field(AcceptablePassRate; Rec.AcceptablePassRate) { }
-                field(Deployment; Rec.Deployment) { }
+                field(Deployment; Rec.Deployment) { Editable = Rec.AIFeature = Rec.AIFeature::None; }
             }
             group(ResponseSchemaGroup)
             {
@@ -85,8 +85,14 @@ page 70102 PromptTestSetup
                     ValidationPromptCheck: Codeunit ValidationPromptCheck;
                     IsSuccess: Boolean;
                     ErrorMessage: Text;
+                    Completion: Text;
+                    OrgPrompt: Text;
+                    UserPrompt: Text;
                 begin
-                    IsSuccess := ValidationPromptCheck.ValidateCompletion(Rec.Complete(Rec.GetDefaultUserPrompt()), Rec.GetValidationPrompt(), ErrorMessage);
+                    UserPrompt := Rec.GetDefaultUserPrompt();
+                    OrgPrompt := Rec.GetSystemPrompt() + ' ' + UserPrompt;
+                    Completion := Rec.Complete(UserPrompt);
+                    IsSuccess := ValidationPromptCheck.ValidateCompletion(Completion, Rec.GetValidationPrompt(), OrgPrompt, ErrorMessage);
                     Message('Is Test Successful: %1\\ Error Message: %2', IsSuccess, ErrorMessage);
                 end;
             }

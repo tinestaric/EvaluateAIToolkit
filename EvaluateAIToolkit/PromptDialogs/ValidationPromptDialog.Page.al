@@ -31,15 +31,17 @@ page 70107 ValidationPromptDialog
         _Completion: Text;
         _ValidationPrompt: Text;
         _CompletionToValidate: Text;
+        _OriginalPrompt: Text;
 
     trigger OnAfterGetCurrRecord()
     begin
     end;
 
-    internal procedure SetPrompts(ValidationPrompt: Text; CompletionToValidate: Text)
+    internal procedure SetPrompts(ValidationPrompt: Text; CompletionToValidate: Text; OriginalPrompt: Text)
     begin
         _ValidationPrompt := ValidationPrompt;
         _CompletionToValidate := CompletionToValidate;
+        _OriginalPrompt := OriginalPrompt;
     end;
 
     internal procedure GetCompletion(): Text
@@ -49,9 +51,9 @@ page 70107 ValidationPromptDialog
 
     local procedure ValidateCompletionWithPrompt()
     var
-        ExecuteValidationPrompt: Codeunit ExecuteValidationPrompt;
+        ExecuteValidationPrompt: Codeunit ValidateCompletion;
     begin
-        _Completion := ExecuteValidationPrompt.ExecutePrompt(_ValidationPrompt, _CompletionToValidate);
+        _Completion := ExecuteValidationPrompt.ExecutePrompt(_ValidationPrompt, _CompletionToValidate, _OriginalPrompt);
         CurrPage.Close();
     end;
 }

@@ -1,17 +1,22 @@
 codeunit 70113 ValidationPromptCheck
 {
-    internal procedure ValidateCompletion(CompletionToValidate: Text; ValidationPrompt: Text; var ErrorMessage: Text) IsSuccess: Boolean
+    internal procedure ValidateCompletion(
+        CompletionToValidate: Text;
+        ValidationPrompt: Text;
+        OriginalPrompt: Text;
+        var ErrorMessage: Text
+    ) IsSuccess: Boolean
     var
-        ExecuteValidationPrompt: Codeunit ExecuteValidationPrompt;
+        ExecuteValidationPrompt: Codeunit ValidateCompletion;
         ValidationPromptDialog: Page ValidationPromptDialog;
         Completion: Text;
     begin
         if GuiAllowed then begin
-            ValidationPromptDialog.SetPrompts(ValidationPrompt, CompletionToValidate);
+            ValidationPromptDialog.SetPrompts(ValidationPrompt, CompletionToValidate, OriginalPrompt);
             ValidationPromptDialog.RunModal();
             Completion := ValidationPromptDialog.GetCompletion();
         end else
-            Completion := ExecuteValidationPrompt.ExecutePrompt(ValidationPrompt, CompletionToValidate);
+            Completion := ExecuteValidationPrompt.ExecutePrompt(ValidationPrompt, CompletionToValidate, OriginalPrompt);
 
         if CheckIfValidCompletion(Completion) then
             IsSuccess := ParseCompletion(Completion, ErrorMessage)

@@ -213,7 +213,12 @@ table 70100 PromptTest
 
         if Rec.GetValidationPrompt() <> '' then begin
             Clear(ErrorMessage);
-            IsSuccess := ValidationPromptCheck.ValidateCompletion(Completion, Rec.GetValidationPrompt(), ErrorMessage);
+            IsSuccess := ValidationPromptCheck.ValidateCompletion(
+                Completion,
+                Rec.GetValidationPrompt(),
+                Rec.GetSystemPrompt() + ' ' + UserPromptText,
+                ErrorMessage
+            );
             ResultLogger.LogValidationPromptResult(IsSuccess, ErrorMessage);
         end;
     end;

@@ -14,7 +14,13 @@ page 70101 PromptTestCard
                 Caption = 'Prompt';
 
                 field(PromptCode; Rec.PromptCode) { }
-                field(AIFeature; Rec.AIFeature) { }
+                field(AIFeature; Rec.AIFeature)
+                {
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                    end;
+                }
                 field(VersionNo; Rec.VersionNo)
                 {
                     Editable = false;

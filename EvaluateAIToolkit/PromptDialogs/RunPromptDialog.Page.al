@@ -21,6 +21,10 @@ page 70105 RunPromptDialog
             {
                 ShowCaption = false;
                 MultiLine = true;
+
+                trigger OnValidate()
+                begin
+                end;
             }
         }
         area(Content)

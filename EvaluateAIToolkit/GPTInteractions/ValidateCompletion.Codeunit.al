@@ -1,18 +1,18 @@
-codeunit 70112 ExecuteValidationPrompt
+codeunit 70112 ValidateCompletion
 {
-    procedure ExecutePrompt(ValidationPrompt: Text; CompletionToValidate: Text) Completion: Text
+    procedure ExecutePrompt(ValidationPrompt: Text; CompletionToValidate: Text; OriginalPrompt: Text) Completion: Text
     var
         AOAIWrapper: Codeunit AOAIWrapper;
         gpt432k: Codeunit gpt432k;
         SystemPrompt: Text;
     begin
-        SystemPrompt := GetSystemPrompt(ValidationPrompt, Completion);
+        SystemPrompt := GetSystemPrompt(ValidationPrompt, Completion, OriginalPrompt);
 
         AOAIWrapper.SetDeploymentInstance(gpt432k);
         Completion := AOAIWrapper.GenerateResponse(SystemPrompt, CompletionToValidate);
     end;
 
-    local procedure GetSystemPrompt(ValidationPrompt: Text; CompletionToValidate: Text): Text
+    local procedure GetSystemPrompt(ValidationPrompt: Text; CompletionToValidate: Text; OriginalPrompt: Text): Text
     var
         Regex: Codeunit Regex;
         HtmlRegexTok: Label '<.*?>', Locked = true;
@@ -33,6 +33,10 @@ codeunit 70112 ExecuteValidationPrompt
         SystemPrompt.AppendLine('Completion:');
         SystemPrompt.AppendLine('"""');
         SystemPrompt.AppendLine(CompletionToValidate);
+        SystemPrompt.AppendLine('"""');
+        SystemPrompt.AppendLine('Original Prompt:');
+        SystemPrompt.AppendLine('"""');
+        SystemPrompt.AppendLine(OriginalPrompt);
         SystemPrompt.AppendLine('"""');
         SystemPrompt.AppendLine();
         SystemPrompt.AppendLine('If the completion is valid, the result should be true, no nothing should be returned in the error message.');
