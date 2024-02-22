@@ -1,4 +1,4 @@
-codeunit 50101 CustEmailGenerationImpl
+codeunit 60100 CustEmailGenerationImpl
 {
     procedure Generate(var GenerationId: Record "Name/Value Buffer"; var GeneratedEmail: Record GeneratedEmail; InputText: Text; InvoiceNo: Code[20])
     var

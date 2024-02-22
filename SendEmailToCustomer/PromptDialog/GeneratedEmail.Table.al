@@ -1,4 +1,4 @@
-table 50100 GeneratedEmail
+table 60100 GeneratedEmail
 {
     DataClassification = CustomerContent;
     TableType = Temporary;

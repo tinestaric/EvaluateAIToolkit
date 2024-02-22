@@ -1,4 +1,4 @@
-page 50100 CustomerEmailGeneration
+page 60100 CustomerEmailGeneration
 {
     Caption = 'Generate an Email for a Customer';
     DataCaptionExpression = GenerationIdInputText;

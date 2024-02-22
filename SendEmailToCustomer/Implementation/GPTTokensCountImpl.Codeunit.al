@@ -1,4 +1,4 @@
-codeunit 50102 GPTTokensCountImpl
+codeunit 60101 GPTTokensCountImpl
 {
     procedure PreciseTokenCount(Input: Text): Integer
     var
