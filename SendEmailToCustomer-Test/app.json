@@ -17,7 +17,13 @@
     "publisher":  "Tine&Berny",
     "name":  "EvaluateAIToolkit",
     "version":  "1.0.0.0"
-    }
+    },
+    {
+      "id":  "a9684c47-98c5-47d2-8a06-819895095ea4",
+      "publisher":  "Tine&Berny",
+      "name":  "SendEmailToCustomer",
+      "version":  "1.0.0.0"
+      }    
   ],
   "screenshots": [],
   "platform": "23.0.0.0",

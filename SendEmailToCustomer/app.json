@@ -32,5 +32,12 @@
     "NoPromotedActionProperties",
     "TranslationFile"
   ],
+  "internalsVisibleTo": [
+    {
+      "id": "0347b04b-70ed-4fcf-b38d-cb7d5a1947d1",
+      "name": "SendEmailToCustomer-Test",
+      "publisher": "Tine&Berny"
+    }     
+  ],   
   "applicationInsightsConnectionString": "InstrumentationKey=00000000-0000-0000-0000-000000000000"
 }

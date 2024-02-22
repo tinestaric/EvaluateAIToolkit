@@ -49,7 +49,7 @@ codeunit 60100 CustEmailGenerationImpl
         Message(GeneratedEmail);
     end;
 
-    local procedure GetSystemPrompt(InvoiceNo: Code[20]): Text
+    internal procedure GetSystemPrompt(InvoiceNo: Code[20]): Text
     var
         SystemPrompt: TextBuilder;
     begin
