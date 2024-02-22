@@ -76,6 +76,19 @@ table 70100 PromptTest
         exit(ReadBlob(InStr));
     end;
 
+    internal procedure GetRandomUserPrompt(): Text
+    var
+        AltUserPrompt: Record AltUserPrompt;
+    begin
+        AltUserPrompt.SetRange(PromptCode, Rec.PromptCode);
+        if not AltUserPrompt.FindSet() then
+            exit(GetDefaultUserPrompt())
+        else begin
+            AltUserPrompt.Next(Random(AltUserPrompt.Count));
+            exit(AltUserPrompt.UserPrompt);
+        end;
+    end;
+
     internal procedure GetDefaultUserPrompt(): Text
     var
         InStr: InStream;

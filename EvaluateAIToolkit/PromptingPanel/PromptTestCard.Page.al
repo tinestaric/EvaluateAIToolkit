@@ -109,10 +109,12 @@ page 70101 PromptTestCard
                 trigger OnAction()
                 var
                     IsSuccess: Boolean;
+                    UserPrompt: Text;
                 begin
-                    _Completion := Rec.Complete(Rec.GetDefaultUserPrompt());
+                    UserPrompt := Rec.GetRandomUserPrompt();
+                    _Completion := Rec.Complete(UserPrompt);
 
-                    IsSuccess := Rec.TestCompletion(_Completion, Rec.GetDefaultUserPrompt());
+                    IsSuccess := Rec.TestCompletion(_Completion, UserPrompt);
 
                     Message('Prompt Validation Passed: %1', IsSuccess);
                 end;
@@ -139,6 +141,14 @@ page 70101 PromptTestCard
                 Image = Setup;
                 RunObject = Page PromptTestSetup;
                 RunPageOnRec = true;
+            }
+            action(SetupAltUserPrompts)
+            {
+                Caption = 'Setup Alt User Prompts';
+                ToolTip = 'Setup alternative user prompts';
+                Image = SetupLines;
+                RunObject = Page AltUserPrompts;
+                RunPageLink = PromptCode = field(PromptCode);
             }
             action(Results)
             {

@@ -19,7 +19,13 @@ page 70104 PromptTestResultCard
                 field(VersionNo; Rec.VersionNo) { }
                 field(Type; Rec.Type) { }
                 field(IsSuccess; Rec.IsSuccess) { }
-                field(ErrorMessage; Rec.ErrorMessage) { }
+                field(ErrorMessage; Rec.ErrorMessage)
+                {
+                    trigger OnAssistEdit()
+                    begin
+                        Message(Rec.ErrorMessage);
+                    end;
+                }
                 field(SystemCreatedAt; Rec.SystemCreatedAt) { Caption = 'Timestamp'; }
             }
             group(SystemPromptGroup)

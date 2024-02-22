@@ -18,7 +18,7 @@ page 70107 ValidationPromptDialog
         {
             systemaction(Generate)
             {
-                Tooltip = 'Generates an Email';
+                Tooltip = 'Generates the completion.';
                 trigger OnAction()
                 begin
                     GenerateCompletion();

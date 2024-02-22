@@ -65,7 +65,7 @@ page 70105 RunPromptDialog
             systemaction(Ok)
             {
                 Caption = 'Keep it';
-                ToolTip = 'Accepts the current suggestion, send the email and dismisses the dialog';
+                ToolTip = 'Accepts the current suggestion';
             }
         }
     }

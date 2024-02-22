@@ -11,6 +11,7 @@ codeunit 70109 PromptTestBCPT implements "BCPT Test Param. Provider"
         BCPTTestContext: Codeunit "BCPT Test Context";
         Completion: Text;
         PromptToTest: Text;
+        UserPrompt: Text;
     begin
         PromptToTest := BCPTTestContext.GetParameter(_PromptTestCodeParamTok);
         PromptTest.Get(PromptToTest);
@@ -18,11 +19,12 @@ codeunit 70109 PromptTestBCPT implements "BCPT Test Param. Provider"
         BCPTTestContext.StartScenario('Testing prompt: ' + PromptToTest);
 
         BCPTTestContext.StartScenario('Create a Completion of the prompt');
-        Completion := PromptTest.Complete(PromptTest.GetDefaultUserPrompt());
+        UserPrompt := PromptTest.GetRandomUserPrompt();
+        Completion := PromptTest.Complete(UserPrompt);
         BCPTTestContext.EndScenario('Create a Completion of the prompt');
 
         BCPTTestContext.StartScenario('Validate the Completion');
-        PromptTest.TestCompletion(Completion, PromptTest.GetDefaultUserPrompt());
+        PromptTest.TestCompletion(Completion, UserPrompt);
         BCPTTestContext.EndScenario('Validate the Completion');
 
         BCPTTestContext.EndScenario('Testing prompt: ' + PromptToTest);
