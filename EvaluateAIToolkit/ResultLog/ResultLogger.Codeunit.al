@@ -8,6 +8,7 @@ codeunit 70110 ResultLogger
         PromptTestResult.Init();
         PromptTestResult.PromptCode := PromptTest.PromptCode;
         PromptTestResult.VersionNo := PromptTest.VersionNo;
+        PromptTestResult.Deployment := PromptTest.Deployment;
         PromptTestResult.SetSystemPrompt(PromptTest.GetSystemPrompt());
         PromptTestResult.SetCompletion(Completion);
         PromptTestResult.SetUserPrompt(UserPrompt);

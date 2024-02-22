@@ -48,6 +48,14 @@ table 70100 PromptTest
         {
             Caption = 'Validation Prompt';
         }
+        field(100; Deployment; Enum AOAIDeployment)
+        {
+            Caption = 'Deployment';
+        }
+        field(110; AIFeature; Enum AIFeature)
+        {
+            Caption = 'AI Feature';
+        }
     }
 
     keys
@@ -69,11 +77,17 @@ table 70100 PromptTest
     #region Blob I/O
     internal procedure GetSystemPrompt(): Text
     var
+        IAIFeature: Interface IAIFeature;
         InStr: InStream;
     begin
-        Rec.CalcFields(SystemPrompt);
-        Rec.SystemPrompt.CreateInStream(InStr);
-        exit(ReadBlob(InStr));
+        if AIFeature = AIFeature::None then begin
+            Rec.CalcFields(SystemPrompt);
+            Rec.SystemPrompt.CreateInStream(InStr);
+            exit(ReadBlob(InStr));
+        end else begin
+            IAIFeature := AIFeature;
+            exit(IAIFeature.GetSystemPrompt());
+        end;
     end;
 
     internal procedure GetRandomUserPrompt(): Text
@@ -163,8 +177,15 @@ table 70100 PromptTest
     internal procedure Complete(UserPrompt: Text): Text
     var
         ExecuteTestPrompt: Codeunit ExecuteTestPrompt;
+        IAIFeature: Interface IAIFeature;
     begin
-        exit(ExecuteTestPrompt.ExecutePrompt(Rec.GetSystemPrompt(), UserPrompt));
+        if AIFeature = AIFeature::None then begin
+            ExecuteTestPrompt.SetDeployment(Rec.Deployment);
+            exit(ExecuteTestPrompt.ExecutePrompt(Rec.GetSystemPrompt(), UserPrompt));
+        end else begin
+            IAIFeature := AIFeature;
+            exit(IAIFeature.Generate(UserPrompt));
+        end;
     end;
 
     internal procedure TestCompletion(Completion: Text; UserPromptText: Text) IsSuccess: Boolean

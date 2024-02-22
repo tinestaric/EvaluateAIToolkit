@@ -6,9 +6,9 @@ using EvaluateAIToolkit.Helpers;
 
 codeunit 70111 CreateValidationPrompt implements ISimplePrompt
 {
-    internal procedure IsShowPromptPart(): Boolean
+    procedure SetDeployment(AOAIDeployment: Interface IAOAIDeployment): Boolean
     begin
-        exit(false);
+        // Do nothing
     end;
 
     internal procedure RunPrompt(PromptTest: Record PromptTest)

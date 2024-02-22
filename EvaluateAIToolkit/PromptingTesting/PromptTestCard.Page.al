@@ -14,6 +14,7 @@ page 70101 PromptTestCard
                 Caption = 'Prompt';
 
                 field(PromptCode; Rec.PromptCode) { }
+                field(AIFeature; Rec.AIFeature) { }
                 field(VersionNo; Rec.VersionNo)
                 {
                     Editable = false;
@@ -36,6 +37,7 @@ page 70101 PromptTestCard
             group(SystemPromptGroup)
             {
                 Caption = 'System Prompt';
+                Editable = Rec.AIFeature = Enum::AIFeature::None;
 
                 field(SystemPrompt; _SystemPrompt)
                 {

@@ -1,5 +1,5 @@
 interface ISimplePrompt
 {
-    procedure IsShowPromptPart(): Boolean
+    procedure SetDeployment(AOAIDeployment: Interface IAOAIDeployment): Boolean
     procedure ExecutePrompt(SystemPrompt: Text; UserPrompt: Text) Completion: Text
 }

@@ -27,6 +27,7 @@ page 70104 PromptTestResultCard
                     end;
                 }
                 field(SystemCreatedAt; Rec.SystemCreatedAt) { Caption = 'Timestamp'; }
+                field(Deployment; Rec.Deployment) { }
             }
             group(SystemPromptGroup)
             {

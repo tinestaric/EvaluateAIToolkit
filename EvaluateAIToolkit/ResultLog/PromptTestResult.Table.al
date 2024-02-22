@@ -42,6 +42,10 @@ table 70101 PromptTestResult
         {
             Caption = 'Validation Type';
         }
+        field(80; Deployment; Enum AOAIDeployment)
+        {
+            Caption = 'Deployment';
+        }
     }
 
     keys

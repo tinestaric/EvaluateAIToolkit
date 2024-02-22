@@ -17,6 +17,7 @@ page 70102 PromptTestSetup
                 field(PromptCode; Rec.PromptCode) { Editable = false; }
                 field(ExpectedResponseType; Rec.ExpectedResponseType) { }
                 field(NoOfTestRuns; Rec.NoOfTestRuns) { }
+                field(Deployment; Rec.Deployment) { }
             }
             group(ResponseSchemaGroup)
             {
@@ -126,6 +127,13 @@ page 70102 PromptTestSetup
 
                 actionref(TestSchema_Promoted; TestSchema) { }
                 actionref(TestValidationPrompt_Promoted; TestValidationPrompt) { }
+            }
+            group(Category_New)
+            {
+                Caption = 'New';
+
+                actionref(GetResponseSchema_Promoted; GetResponseSchema) { }
+                actionref(GetValidationPrompt_Promoted; GetValidationPrompt) { }
             }
         }
     }
