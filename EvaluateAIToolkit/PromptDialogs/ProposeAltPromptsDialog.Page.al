@@ -14,20 +14,6 @@ page 70110 ProposeAltPromptsDialog
 
     layout
     {
-        area(Prompt)
-        {
-            field(InputText; InputText)
-            {
-                ShowCaption = false;
-                MultiLine = true;
-                ApplicationArea = All;
-                trigger OnValidate()
-                begin
-                    CurrPage.Update();
-                end;
-            }
-
-        }
         area(Content)
         {
             part(ProposalDetails; AltUserPromptsPart)
@@ -76,7 +62,6 @@ page 70110 ProposeAltPromptsDialog
 
     var
         _PromptTest: Record PromptTest;
-        inputtext: text;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
     var
@@ -114,5 +99,15 @@ page 70110 ProposeAltPromptsDialog
                 AltUserPrompt.UserPrompt := TempAltUserPromptGenerated.UserPrompt;
                 AltUserPrompt.Insert(true);
             until TempAltUserPromptGenerated.Next() = 0;
+
+        RemoveEmptyLines();
+    end;
+
+    local procedure RemoveEmptyLines()
+    var
+        AltUserPrompt: Record AltUserPrompt;
+    begin
+        AltUserPrompt.SetRange(UserPrompt, '');
+        AltUserPrompt.DeleteAll(true);
     end;
 }

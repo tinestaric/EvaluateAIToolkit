@@ -18,11 +18,6 @@ page 70109 EditUserPromptDialog
             {
                 ShowCaption = false;
                 MultiLine = true;
-
-                trigger OnValidate()
-                begin
-                    CurrPage.Update();
-                end;
             }
         }
     }

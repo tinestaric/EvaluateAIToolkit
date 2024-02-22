@@ -5,7 +5,7 @@ page 70105 RunPromptDialog
     PageType = PromptDialog;
     IsPreview = true;
     Extensible = false;
-    PromptMode = Generate;
+    PromptMode = Prompt;
     ApplicationArea = All;
     Editable = true;
     SourceTable = "Name/Value Buffer";
@@ -21,11 +21,6 @@ page 70105 RunPromptDialog
             {
                 ShowCaption = false;
                 MultiLine = true;
-
-                trigger OnValidate()
-                begin
-                    CurrPage.Update();
-                end;
             }
         }
         area(Content)
@@ -43,7 +38,7 @@ page 70105 RunPromptDialog
         {
             systemaction(Generate)
             {
-                Tooltip = 'Generates an Email';
+                Tooltip = 'Generates a completion';
                 trigger OnAction()
                 begin
                     GenerateCompletion();
@@ -52,7 +47,7 @@ page 70105 RunPromptDialog
             systemaction(Regenerate)
             {
                 Caption = 'Regenerate';
-                Tooltip = 'Regenerates an Email';
+                Tooltip = 'Regenerates a completion';
                 trigger OnAction()
                 begin
                     GenerateCompletion();
@@ -86,6 +81,11 @@ page 70105 RunPromptDialog
     begin
         _SystemPrompt := SystemPrompt;
         _UserPrompt := UserPrompt;
+    end;
+
+    internal procedure SetPromptMode(PromptMode: PromptMode)
+    begin
+        CurrPage.PromptMode := PromptMode;
     end;
 
     internal procedure SetPromptType(ISimplePrompt: Interface ISimplePrompt)

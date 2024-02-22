@@ -56,6 +56,13 @@ table 70100 PromptTest
         {
             Caption = 'AI Feature';
         }
+        field(120; AcceptablePassRate; Decimal)
+        {
+            Caption = 'Acceptable Pass Rate';
+            DecimalPlaces = 2;
+            MaxValue = 100;
+            InitValue = 80;
+        }
     }
 
     keys
@@ -191,18 +198,22 @@ table 70100 PromptTest
     internal procedure TestCompletion(Completion: Text; UserPromptText: Text) IsSuccess: Boolean
     var
         ResultLogger: Codeunit ResultLogger;
+        ValidationPromptCheck: Codeunit ValidationPromptCheck;
         ErrorMessage: Text;
     begin
+        IsSuccess := true;
+
         ResultLogger.Initialize(Rec, Completion, UserPromptText);
 
         if Rec.GetExpectedResponseSchema() <> '' then begin
             IsSuccess := TestCompletionWithSchema(Completion, ErrorMessage);
             ResultLogger.LogSchemaValidationResult(IsSuccess, ErrorMessage);
+            Commit(); // Commit to avoid losing the result if the validation prompt fails
         end;
 
         if Rec.GetValidationPrompt() <> '' then begin
             Clear(ErrorMessage);
-            IsSuccess := TestCompletionWithValidationPrompt(Completion, ErrorMessage);
+            IsSuccess := ValidationPromptCheck.ValidateCompletion(Completion, Rec.GetValidationPrompt(), ErrorMessage);
             ResultLogger.LogValidationPromptResult(IsSuccess, ErrorMessage);
         end;
     end;
@@ -216,11 +227,29 @@ table 70100 PromptTest
         IsSuccess := ISchemaTester.Test(Completion, ErrorMessage);
     end;
 
-    internal procedure TestCompletionWithValidationPrompt(CompletionToValidate: Text; var ErrorMessage: Text) IsSuccess: Boolean
+    internal procedure CalcPassRates(var PassRate: Decimal; var SchemaPassRate: Decimal; var ValidationPassRate: Decimal)
     var
-        ValidationPromptCheck: Codeunit ValidationPromptCheck;
+        PromptTestResult: Record PromptTestResult;
+        TotalRuns: Integer;
     begin
-        IsSuccess := ValidationPromptCheck.ValidateCompletion(CompletionToValidate, Rec.GetValidationPrompt(), ErrorMessage);
+        PromptTestResult.SetRange(PromptCode, Rec.PromptCode);
+        PromptTestResult.SetRange(VersionNo, Rec.VersionNo);
+        TotalRuns := PromptTestResult.Count;
+
+        if TotalRuns = 0 then begin
+            PassRate := 0;
+            SchemaPassRate := 0;
+            ValidationPassRate := 0;
+        end else begin
+            PromptTestResult.SetRange(IsSuccess, true);
+            PassRate := PromptTestResult.Count / TotalRuns * 100;
+
+            PromptTestResult.SetRange(Type, PromptTestResult.Type::SchemaValidation);
+            SchemaPassRate := PromptTestResult.Count / TotalRuns * 100;
+
+            PromptTestResult.SetRange(Type, PromptTestResult.Type::ValidationPrompt);
+            ValidationPassRate := PromptTestResult.Count / TotalRuns * 100;
+        end;
     end;
     #endregion
 

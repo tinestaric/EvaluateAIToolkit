@@ -12,6 +12,7 @@ codeunit 70110 ResultLogger
         PromptTestResult.SetSystemPrompt(PromptTest.GetSystemPrompt());
         PromptTestResult.SetCompletion(Completion);
         PromptTestResult.SetUserPrompt(UserPrompt);
+        PromptTestResult.SetValidationPrompt(PromptTest.GetValidationPrompt());
     end;
 
     internal procedure LogSchemaValidationResult(IsSuccess: Boolean; ErrorMessage: Text)

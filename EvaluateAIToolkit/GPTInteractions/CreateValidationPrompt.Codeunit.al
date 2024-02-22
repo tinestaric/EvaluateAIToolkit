@@ -18,6 +18,7 @@ codeunit 70111 CreateValidationPrompt implements ISimplePrompt
     begin
         RunPromptDialog.SetPrompts(PromptTest.GetSystemPrompt(), '');
         RunPromptDialog.SetPromptType(CreateValidationPrompt);
+        RunPromptDialog.SetPromptMode(PromptMode::Generate);
         if RunPromptDialog.RunModal() = Action::OK then
             PromptTest.SetValidationPrompt(RunPromptDialog.GetCompletion());
     end;

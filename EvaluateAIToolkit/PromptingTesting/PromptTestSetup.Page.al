@@ -17,6 +17,7 @@ page 70102 PromptTestSetup
                 field(PromptCode; Rec.PromptCode) { Editable = false; }
                 field(ExpectedResponseType; Rec.ExpectedResponseType) { }
                 field(NoOfTestRuns; Rec.NoOfTestRuns) { }
+                field(AcceptablePassRate; Rec.AcceptablePassRate) { }
                 field(Deployment; Rec.Deployment) { }
             }
             group(ResponseSchemaGroup)
@@ -47,7 +48,7 @@ page 70102 PromptTestSetup
 
                     trigger OnValidate()
                     begin
-                        Rec.SetExpectedResponseSchema(_ExpectedResponseSchema);
+                        Rec.SetValidationPrompt(_ValidationPrompt);
                     end;
                 }
             }
@@ -85,14 +86,13 @@ page 70102 PromptTestSetup
                     IsSuccess: Boolean;
                     ErrorMessage: Text;
                 begin
-                    ValidationPromptCheck.SetShowUI(true);
                     IsSuccess := ValidationPromptCheck.ValidateCompletion(Rec.Complete(Rec.GetDefaultUserPrompt()), Rec.GetValidationPrompt(), ErrorMessage);
                     Message('Is Test Successful: %1\\ Error Message: %2', IsSuccess, ErrorMessage);
                 end;
             }
             action(GetResponseSchema)
             {
-                Caption = 'Get Response Schema';
+                Caption = 'Extract Response Schema';
                 ToolTip = 'Uses GPT to extract the expected schema out of the system prompt';
                 Image = SparkleFilled;
 
@@ -106,7 +106,7 @@ page 70102 PromptTestSetup
             }
             action(GetValidationPrompt)
             {
-                Caption = 'Get Validation Prompt';
+                Caption = 'Create Validation Prompt';
                 ToolTip = 'Uses GPT to extract the validation prompt out of the system prompt';
                 Image = SparkleFilled;
 

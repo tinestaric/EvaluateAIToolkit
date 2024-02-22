@@ -19,15 +19,19 @@ page 70104 PromptTestResultCard
                 field(VersionNo; Rec.VersionNo) { }
                 field(Type; Rec.Type) { }
                 field(IsSuccess; Rec.IsSuccess) { }
-                field(ErrorMessage; Rec.ErrorMessage)
-                {
-                    trigger OnAssistEdit()
-                    begin
-                        Message(Rec.ErrorMessage);
-                    end;
-                }
                 field(SystemCreatedAt; Rec.SystemCreatedAt) { Caption = 'Timestamp'; }
                 field(Deployment; Rec.Deployment) { }
+                group(ErrorMessageGroup)
+                {
+                    ShowCaption = false;
+                    field(ErrorMessage; Rec.ErrorMessage)
+                    {
+                        trigger OnAssistEdit()
+                        begin
+                            Message(Rec.ErrorMessage);
+                        end;
+                    }
+                }
             }
             group(SystemPromptGroup)
             {
@@ -63,6 +67,18 @@ page 70104 PromptTestResultCard
                     Editable = false;
                 }
             }
+            group(ValidationPromptGroup)
+            {
+                Caption = 'Validation Prompt';
+                Visible = Rec.Type = Rec.Type::ValidationPrompt;
+
+                field(ValidationPrompt; _ValidationPrompt)
+                {
+                    ShowCaption = false;
+                    ExtendedDatatype = RichContent;
+                    MultiLine = true;
+                }
+            }
         }
     }
 
@@ -70,6 +86,7 @@ page 70104 PromptTestResultCard
         _SystemPrompt: Text;
         _UserPrompt: Text;
         _Completion: Text;
+        _ValidationPrompt: Text;
 
     trigger OnAfterGetCurrRecord()
     begin
@@ -81,5 +98,6 @@ page 70104 PromptTestResultCard
         _SystemPrompt := Rec.GetSystemPrompt();
         _UserPrompt := Rec.GetUserPrompt();
         _Completion := Rec.GetCompletion();
+        _ValidationPrompt := Rec.GetValidationPrompt();
     end;
 }

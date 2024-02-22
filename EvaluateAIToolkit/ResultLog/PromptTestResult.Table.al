@@ -46,6 +46,10 @@ table 70101 PromptTestResult
         {
             Caption = 'Deployment';
         }
+        field(90; ValidationPrompt; Blob)
+        {
+            Caption = 'Validation Prompt';
+        }
     }
 
     keys
@@ -84,6 +88,15 @@ table 70101 PromptTestResult
         exit(ReadBlob(InStr));
     end;
 
+    internal procedure GetValidationPrompt(): Text
+    var
+        InStr: InStream;
+    begin
+        Rec.CalcFields(ValidationPrompt);
+        Rec.ValidationPrompt.CreateInStream(InStr);
+        exit(ReadBlob(InStr));
+    end;
+
     local procedure ReadBlob(InStr: InStream) OutText: Text
     var
         Text: Text;
@@ -118,6 +131,15 @@ table 70101 PromptTestResult
     begin
         Clear(Rec.Completion);
         Rec.Completion.CreateOutStream(OutStr);
+        OutStr.WriteText(Value);
+    end;
+
+    internal procedure SetValidationPrompt(Value: Text)
+    var
+        OutStr: OutStream;
+    begin
+        Clear(Rec.ValidationPrompt);
+        Rec.ValidationPrompt.CreateOutStream(OutStr);
         OutStr.WriteText(Value);
     end;
     #endregion

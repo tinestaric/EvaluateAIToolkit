@@ -15,19 +15,6 @@ page 70106 ExtractSchemaPromptDialog
 
     layout
     {
-        area(Prompt)
-        {
-            field(UserPrompt; _UserPrompt)
-            {
-                ShowCaption = false;
-                MultiLine = true;
-
-                trigger OnValidate()
-                begin
-                    CurrPage.Update();
-                end;
-            }
-        }
         area(Content)
         {
             field(SchemaType; _SchemaType) { Caption = 'Schema Type'; }
@@ -73,7 +60,6 @@ page 70106 ExtractSchemaPromptDialog
 
     var
         _PromptTest: Record PromptTest;
-        _UserPrompt: Text;
         _GenerationIdInputText: Text;
         _Completion: Text;
         _SchemaType: Enum ExpectedResponseType;
@@ -96,7 +82,6 @@ page 70106 ExtractSchemaPromptDialog
     internal procedure SetPromptTest(PromptTest: Record PromptTest)
     begin
         _PromptTest := PromptTest;
-        _UserPrompt := _PromptTest.GetDefaultUserPrompt();
     end;
 
     internal procedure GetCompletion(): Text

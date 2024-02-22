@@ -24,6 +24,27 @@ page 70101 PromptTestCard
                         OpenTestResults();
                     end;
                 }
+                field(PassRate; _PassRate)
+                {
+                    Editable = false;
+                    Caption = 'Pass Rate';
+                    StyleExpr = _PassRateStyle;
+
+                    trigger OnDrillDown()
+                    begin
+                        OpenTestResults();
+                    end;
+                }
+                field(SchemaPassRate; _SchemaPassRate)
+                {
+                    Editable = false;
+                    Caption = 'Schema Pass Rate';
+                }
+                field(ValidationPassRate; _ValidationPassRate)
+                {
+                    Editable = false;
+                    Caption = 'Validation Pass Rate';
+                }
             }
             group(DescriptionGroup)
             {
@@ -174,6 +195,19 @@ page 70101 PromptTestCard
                 actionref(TestPrompt_Promoted; TestCompletion) { }
                 actionref(BatchTest_Promoted; BatchTest) { }
             }
+            group(Category_Category4)
+            {
+                Caption = 'Navigate';
+
+                actionref(Results_Promoted; Results) { }
+            }
+            group(Category_Category5)
+            {
+                Caption = 'Setup';
+
+                actionref(TestSetup_Promoted; TestSetup) { }
+                actionref(SetupAltUserPrompts_Promoted; SetupAltUserPrompts) { }
+            }
         }
     }
 
@@ -181,10 +215,16 @@ page 70101 PromptTestCard
         _SystemPrompt: Text;
         _UserPrompt: Text;
         _Completion: Text;
+        _PassRate: Decimal;
+        _SchemaPassRate: Decimal;
+        _ValidationPassRate: Decimal;
+        _PassRateStyle: Text;
 
     trigger OnAfterGetCurrRecord()
     begin
         GetTextFromBlobs();
+        Rec.CalcPassRates(_PassRate, _SchemaPassRate, _ValidationPassRate);
+        SetPassRateStyle();
     end;
 
     local procedure GetTextFromBlobs()
@@ -200,5 +240,13 @@ page 70101 PromptTestCard
         PromptTestResult.SetRange(PromptCode, Rec.PromptCode);
         PromptTestResult.SetRange(VersionNo, Rec.VersionNo);
         Page.Run(Page::PromptTestResultList, PromptTestResult);
+    end;
+
+    local procedure SetPassRateStyle()
+    begin
+        if _PassRate < Rec.AcceptablePassRate then
+            _PassRateStyle := 'Unfavorable'
+        else
+            _PassRateStyle := 'Favorable';
     end;
 }

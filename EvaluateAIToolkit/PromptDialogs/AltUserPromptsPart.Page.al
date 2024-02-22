@@ -4,6 +4,7 @@ page 70111 AltUserPromptsPart
     Caption = 'Alternative User Prompts';
     PageType = ListPart;
     SourceTable = AltUserPrompt;
+    ApplicationArea = All;
     SourceTableTemporary = true;
     DeleteAllowed = true;
     InsertAllowed = false;
@@ -36,7 +37,7 @@ page 70111 AltUserPromptsPart
     begin
         AltUserPromptGenerated.DeleteAll(false);
         Rec.Reset();
-        Rec.SetRange(PromptCode, Format(GenerationId));
+        Rec.SetRange(LineNo, GenerationId);
         AltUserPromptGenerated.DeleteAll(false);
         AltUserPromptGenerated.Copy(Rec, true);
     end;

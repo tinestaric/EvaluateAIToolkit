@@ -29,6 +29,7 @@ codeunit 70118 ProposeAltPrompts
         SystemPrompt.AppendLine('You will receive the System Prompt and you need to suggest 10 user prompts that are used as an addition to the system prompt to personalize the request.');
         SystemPrompt.AppendLine('the user prompts will later be used to validate the behavior of the system prompt.');
         SystemPrompt.AppendLine('Keep the prompts short and simple, and make sure they are relevant to the system prompt.');
+        SystemPrompt.AppendLine('Prompts should focus on changing the tone, or emphasizing certain aspects of the system prompt.');
         SystemPrompt.AppendLine();
         SystemPrompt.AppendLine('Example prompt:');
         SystemPrompt.AppendLine('Make the email sound like we really dislike getting late payments.');

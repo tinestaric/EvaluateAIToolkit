@@ -14,6 +14,7 @@ codeunit 70103 ExtractResponseSchema
     begin
         SystemPrompt := GetSystemPrompt();
 
+        AOAIWrapper.SetDeploymentInstance(Enum::AOAIDeployment::gpt432k);
         Completion := AOAIWrapper.GenerateResponse(SystemPrompt, SysPromptToProcess);
         if CheckIfValidCompletion(Completion) then
             SaveExpectedResponse(Completion, PromptTest);

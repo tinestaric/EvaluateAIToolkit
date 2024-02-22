@@ -1,15 +1,12 @@
 codeunit 70113 ValidationPromptCheck
 {
-    var
-        _ShowUI: Boolean;
-
     internal procedure ValidateCompletion(CompletionToValidate: Text; ValidationPrompt: Text; var ErrorMessage: Text) IsSuccess: Boolean
     var
         ExecuteValidationPrompt: Codeunit ExecuteValidationPrompt;
         ValidationPromptDialog: Page ValidationPromptDialog;
         Completion: Text;
     begin
-        if _ShowUI then begin
+        if GuiAllowed then begin
             ValidationPromptDialog.SetPrompts(ValidationPrompt, CompletionToValidate);
             ValidationPromptDialog.RunModal();
             Completion := ValidationPromptDialog.GetCompletion();
@@ -22,11 +19,6 @@ codeunit 70113 ValidationPromptCheck
             IsSuccess := false;
             ErrorMessage := GetLastErrorText();
         end;
-    end;
-
-    internal procedure SetShowUI(ShowUI: Boolean)
-    begin
-        _ShowUI := ShowUI;
     end;
 
     [TryFunction]

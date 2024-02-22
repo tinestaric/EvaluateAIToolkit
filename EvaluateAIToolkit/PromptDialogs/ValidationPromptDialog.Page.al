@@ -1,6 +1,6 @@
 page 70107 ValidationPromptDialog
 {
-    Caption = 'Generating...';
+    Caption = 'Validating completion...';
     PageType = PromptDialog;
     IsPreview = true;
     Extensible = false;
@@ -18,10 +18,10 @@ page 70107 ValidationPromptDialog
         {
             systemaction(Generate)
             {
-                Tooltip = 'Generates the completion.';
+                Tooltip = 'Validates the completion.';
                 trigger OnAction()
                 begin
-                    GenerateCompletion();
+                    ValidateCompletionWithPrompt();
                 end;
             }
         }
@@ -47,7 +47,7 @@ page 70107 ValidationPromptDialog
         exit(_Completion);
     end;
 
-    local procedure GenerateCompletion()
+    local procedure ValidateCompletionWithPrompt()
     var
         ExecuteValidationPrompt: Codeunit ExecuteValidationPrompt;
     begin
