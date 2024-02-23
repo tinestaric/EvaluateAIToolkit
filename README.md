@@ -19,8 +19,8 @@ Here's a list of features:
 - Maintain a full history of prompt execution for effective investigation and adjustments.
 
 ## Apps
-### EvaluatAIToolkit
-This is the main toolkit, it adds the "Prompt Tester" page where the whole logic sits.
+### EvaluateAIToolkit
+This is the main toolkit, it adds the "Prompt Tester" page where the whole logic sits. To get started, navigate to the Prompt Tester page, create a new entry and follow the teaching tips on the Prompt Test Card and Prompt Test Setup. 
 
 ### SendEmailToCustomer
 This is a straightforward app that adds an AI Feature for the generation of emails based on information from the Posted Sales Invoice. Its purpose is to showcase how easy it is to integrate an existing AI Feature with the Evaluate AI Toolkit.
