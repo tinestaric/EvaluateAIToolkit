@@ -5,6 +5,9 @@ page 70102 PromptTestSetup
     ApplicationArea = All;
     UsageCategory = None;
     SourceTable = PromptTest;
+    AboutTitle = 'Prompt Test Setup';
+    AboutText = 'This is where you setup your validation prompt and expected response schema for the prompt test.';
+
 
     layout
     {
@@ -16,13 +19,24 @@ page 70102 PromptTestSetup
 
                 field(PromptCode; Rec.PromptCode) { Editable = false; }
                 field(ExpectedResponseType; Rec.ExpectedResponseType) { }
-                field(NoOfTestRuns; Rec.NoOfTestRuns) { }
+                field(NoOfTestRuns; Rec.NoOfTestRuns)
+                {
+                    AboutTitle = 'No of Test Runs';
+                    AboutText = 'Here is where you specify a number of parallel sessions that should be set in BCPT suite for this prompt test.';
+                }
                 field(AcceptablePassRate; Rec.AcceptablePassRate) { }
-                field(Deployment; Rec.Deployment) { Editable = Rec.AIFeature = Rec.AIFeature::None; }
+                field(Deployment; Rec.Deployment)
+                {
+                    Editable = Rec.AIFeature = Rec.AIFeature::None;
+                    AboutTitle = 'Deployment';
+                    AboutText = 'You can select different OpenAI deployments for testing prompts. This setting has no effect if you''re testing existing features.';
+                }
             }
             group(ResponseSchemaGroup)
             {
                 Caption = 'Expected Response Schema';
+                AboutTitle = 'Expected Response Schema';
+                AboutText = 'This is where you specify the expected response schema for the prompt test. This schema will be used to validate the completion. You can automatically extract the schema from the system prompt by clicking on the "Extract Response Schema" action.';
 
                 field(ExpectedResponseSchema; _ExpectedResponseSchema)
                 {
@@ -39,6 +53,8 @@ page 70102 PromptTestSetup
             group(ValidationPromptGroup)
             {
                 Caption = 'Validation Prompt';
+                AboutTitle = 'Validation Prompt';
+                AboutText = 'This is where you specify the validation prompt for the prompt test. This prompt will be used to validate the completion. You can automatically extract the prompt from the system prompt by clicking on the "Create Validation Prompt" action.';
 
                 field(ValidationPrompt; _ValidationPrompt)
                 {
@@ -64,6 +80,8 @@ page 70102 PromptTestSetup
                 Caption = 'Test Schema';
                 ToolTip = 'Tests the completion against the expected schema';
                 Image = TestDatabase;
+                AboutTitle = 'Test Schema';
+                AboutText = 'This action will only test the completion against the expected schema. It will not test the validation prompt.';
 
                 trigger OnAction()
                 var
@@ -79,6 +97,8 @@ page 70102 PromptTestSetup
                 Caption = 'Test Validation Prompt';
                 ToolTip = 'Tests the completion against the validation prompt';
                 Image = TestFile;
+                AboutTitle = 'Test Validation Prompt';
+                AboutText = 'This action will only test the completion against the validation prompt. It will not test the expected schema.';
 
                 trigger OnAction()
                 var
@@ -101,6 +121,8 @@ page 70102 PromptTestSetup
                 Caption = 'Extract Response Schema';
                 ToolTip = 'Uses GPT to extract the expected schema out of the system prompt';
                 Image = SparkleFilled;
+                AboutTitle = 'Extract Response Schema';
+                AboutText = 'This action will use GPT to extract the expected response schema out of the system prompt.';
 
                 trigger OnAction()
                 var
@@ -113,8 +135,10 @@ page 70102 PromptTestSetup
             action(GetValidationPrompt)
             {
                 Caption = 'Create Validation Prompt';
-                ToolTip = 'Uses GPT to extract the validation prompt out of the system prompt';
+                ToolTip = 'Uses GPT to propose the validation prompt for the system prompt';
                 Image = SparkleFilled;
+                AboutTitle = 'Create Validation Prompt';
+                AboutText = 'This action will use GPT to propose the validation prompt for validating the completion.';
 
                 trigger OnAction()
                 var
