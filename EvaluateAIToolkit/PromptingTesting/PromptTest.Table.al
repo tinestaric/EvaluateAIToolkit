@@ -1,5 +1,6 @@
 namespace EvaluateAIToolkit.PromptingPanel;
 
+using Microsoft.Sales.Document;
 using System.Tooling;
 
 table 70100 PromptTest
@@ -235,26 +236,30 @@ table 70100 PromptTest
     internal procedure CalcPassRates(var PassRate: Decimal; var SchemaPassRate: Decimal; var ValidationPassRate: Decimal)
     var
         PromptTestResult: Record PromptTestResult;
-        TotalRuns: Integer;
     begin
         PromptTestResult.SetRange(PromptCode, Rec.PromptCode);
         PromptTestResult.SetRange(VersionNo, Rec.VersionNo);
+
+        PassRate := GetPassRate(PromptTestResult);
+
+        PromptTestResult.SetRange(Type, PromptTestResult.Type::SchemaValidation);
+        SchemaPassRate := GetPassRate(PromptTestResult);
+
+        PromptTestResult.SetRange(Type, PromptTestResult.Type::ValidationPrompt);
+        ValidationPassRate := GetPassRate(PromptTestResult);
+    end;
+
+    local procedure GetPassRate(var PromptTestResult: Record PromptTestResult): Decimal
+    var
+        TotalRuns: Integer;
+    begin
+        PromptTestResult.SetRange(IsSuccess);
         TotalRuns := PromptTestResult.Count;
+        if TotalRuns = 0 then
+            exit(0);
 
-        if TotalRuns = 0 then begin
-            PassRate := 0;
-            SchemaPassRate := 0;
-            ValidationPassRate := 0;
-        end else begin
-            PromptTestResult.SetRange(IsSuccess, true);
-            PassRate := PromptTestResult.Count / TotalRuns * 100;
-
-            PromptTestResult.SetRange(Type, PromptTestResult.Type::SchemaValidation);
-            SchemaPassRate := PromptTestResult.Count / TotalRuns * 100;
-
-            PromptTestResult.SetRange(Type, PromptTestResult.Type::ValidationPrompt);
-            ValidationPassRate := PromptTestResult.Count / TotalRuns * 100;
-        end;
+        PromptTestResult.SetRange(IsSuccess, true);
+        exit(PromptTestResult.Count / TotalRuns * 100);
     end;
     #endregion
 
