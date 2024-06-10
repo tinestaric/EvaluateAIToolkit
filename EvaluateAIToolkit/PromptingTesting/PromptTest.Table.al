@@ -241,20 +241,14 @@ table 70100 PromptTest
         PromptTestResult.SetRange(VersionNo, Rec.VersionNo);
         TotalRuns := PromptTestResult.Count;
 
-        if TotalRuns = 0 then begin
-            PassRate := 0;
-            SchemaPassRate := 0;
-            ValidationPassRate := 0;
-        end else begin
-            PromptTestResult.SetRange(IsSuccess, true);
-            PassRate := PromptTestResult.Count / TotalRuns * 100;
+        PromptTestResult.SetRange(IsSuccess, true);
+        PassRate := PromptTestResult.Count / TotalRuns * 100;
 
-            PromptTestResult.SetRange(Type, PromptTestResult.Type::SchemaValidation);
-            SchemaPassRate := PromptTestResult.Count / TotalRuns * 100;
+        PromptTestResult.SetRange(Type, PromptTestResult.Type::SchemaValidation);
+        SchemaPassRate := PromptTestResult.Count / TotalRuns * 100;
 
-            PromptTestResult.SetRange(Type, PromptTestResult.Type::ValidationPrompt);
-            ValidationPassRate := PromptTestResult.Count / TotalRuns * 100;
-        end;
+        PromptTestResult.SetRange(Type, PromptTestResult.Type::ValidationPrompt);
+        ValidationPassRate := PromptTestResult.Count / TotalRuns * 100;
     end;
     #endregion
 
