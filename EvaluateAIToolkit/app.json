@@ -1,7 +1,7 @@
 {
   "id": "d002b6d9-8195-44dc-a7a3-53b3bde223d2",
   "name": "EvaluateAIToolkit",
-  "publisher": "Tine&Berny",
+  "publisher": "StarReach",
   "version": "1.0.0.0",
   "brief": "Toolkit for Evaluating and rapid prototyping of AI features.",
   "description": "Toolkit for Evaluating and rapid prototyping of AI features.",
@@ -16,12 +16,12 @@
       "id":  "75f1590f-55c5-4501-ae63-bada5534e852",
       "publisher":  "Microsoft",
       "name":  "Performance Toolkit",
-      "version":  "23.0.0.0"
+      "version":  "25.0.0.0"
     }
   ],
   "screenshots": [],
-  "platform": "23.0.0.0",
-  "application": "23.0.0.0",
+  "platform": "25.0.0.0",
+  "application": "25.0.0.0",
   "idRanges": [
     {
       "from": 70100,
@@ -33,7 +33,7 @@
     "allowDownloadingSource": true,
     "includeSourceInSymbolFile": true
   },
-  "runtime": "12.1",
+  "runtime": "14.0",
   "features": [
     "NoImplicitWith",
     "NoPromotedActionProperties",

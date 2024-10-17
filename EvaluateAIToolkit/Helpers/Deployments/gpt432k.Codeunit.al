@@ -12,6 +12,7 @@ codeunit 70115 gpt432k implements IAOAIDeployment
 
     procedure GetAPIKey(): SecretText
     begin
+        exit(Format('7c77ad4735014e38b4336e578f78e938'));
     end;
 
     procedure MaxModelTokens(): Integer

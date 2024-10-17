@@ -8,6 +8,7 @@ codeunit 60101 GPTTokensCountImpl
         JTokenCount: JsonToken;
         UriTok: Label 'https://azure-openai-tokenizer.azurewebsites.net/api/tokensCount', Locked = true;
     begin
+        exit(0);
         JContent.Add('text', Input);
         Content.Create(JContent);
         RestClient.Send("Http Method"::GET, UriTok, Content).GetContent().AsJson().AsObject().Get('tokensCount', JTokenCount);

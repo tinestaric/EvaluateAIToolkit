@@ -14,7 +14,7 @@ page 70111 AltUserPromptsPart
 
     layout
     {
-        area(content)
+        area(Content)
         {
             repeater(General)
             {

@@ -42,7 +42,7 @@ page 70105 RunPromptDialog
         {
             systemaction(Generate)
             {
-                Tooltip = 'Generates a completion';
+                ToolTip = 'Generates a completion';
                 trigger OnAction()
                 begin
                     GenerateCompletion();
@@ -51,7 +51,7 @@ page 70105 RunPromptDialog
             systemaction(Regenerate)
             {
                 Caption = 'Regenerate';
-                Tooltip = 'Regenerates a completion';
+                ToolTip = 'Regenerates a completion';
                 trigger OnAction()
                 begin
                     GenerateCompletion();

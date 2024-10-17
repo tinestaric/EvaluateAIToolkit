@@ -30,11 +30,11 @@ codeunit 70109 PromptTestBCPT implements "BCPT Test Param. Provider"
         BCPTTestContext.EndScenario('Testing prompt: ' + PromptToTest);
     end;
 
-    internal procedure GetDefaultParameters(): Text[1000];
+    internal procedure GetDefaultParameters(): Text[1000]
     begin
     end;
 
-    internal procedure ValidateParameters(Params: Text[1000]);
+    internal procedure ValidateParameters(Params: Text[1000])
     var
         PromptToTest: Code[20];
     begin

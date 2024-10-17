@@ -14,7 +14,7 @@ codeunit 70102 AOAIWrapper
         AOAIChatCompletionParams: Codeunit "AOAI Chat Completion Params";
         AOAIChatMessages: Codeunit "AOAI Chat Messages";
         AOAIOperationResponse: Codeunit "AOAI Operation Response";
-        AzureOpenAI: Codeunit "Azure OpenAi";
+        AzureOpenAI: Codeunit "Azure OpenAI";
         CompletionAnswerTxt: Text;
     begin
         if not AzureOpenAI.IsEnabled("Copilot Capability"::EvaluateAIToolkit) then
@@ -38,12 +38,12 @@ codeunit 70102 AOAIWrapper
         if AOAIOperationResponse.IsSuccess() then
             CompletionAnswerTxt := AOAIChatMessages.GetLastMessage()
         else
-            Error(AOAIOperationResponse.GetError());
+            Error(ErrorInfo.Create(AOAIOperationResponse.GetError()));
 
         exit(CompletionAnswerTxt);
     end;
 
-    internal procedure MaxInputTokens(): Integer
+    local procedure MaxInputTokens(): Integer
     begin
         exit(IAOAIDeployment.MaxModelTokens() - MaxOutputTokens());
     end;
@@ -55,12 +55,13 @@ codeunit 70102 AOAIWrapper
 
     local procedure CheckInputLength(SystemPrompt: Text; UserPrompt: Text)
     var
-        TokenCountImpl: Codeunit GPTTokensCountImpl;
+        AOAIToken: Codeunit "AOAI Token";
+        InputTooLongErr: Label 'The input token count is too large. Shorten your prompts.';
         CompletePromptTokenCount: Integer;
     begin
-        CompletePromptTokenCount := TokenCountImpl.PreciseTokenCount(SystemPrompt) + TokenCountImpl.PreciseTokenCount(UserPrompt);
+        CompletePromptTokenCount := AOAIToken.GetGPT4TokenCount(SystemPrompt) + AOAIToken.GetGPT4TokenCount(UserPrompt);
         if CompletePromptTokenCount > MaxInputTokens() then
-            Error('The input token count is too large. Shorten your prompts.');
+            Error(InputTooLongErr);
     end;
 
     local procedure GetDeploymentInstance()

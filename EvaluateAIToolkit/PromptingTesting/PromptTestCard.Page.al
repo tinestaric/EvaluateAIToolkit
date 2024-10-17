@@ -112,7 +112,7 @@ page 70101 PromptTestCard
                     end;
                 }
             }
-            Group(CompletionGroup)
+            group(CompletionGroup)
             {
                 Caption = 'Completion';
 
@@ -146,7 +146,7 @@ page 70101 PromptTestCard
             action(TestCompletion)
             {
                 Caption = 'Test Completion';
-                ToolTip = 'Compare the expected schema with the actual schema of the completion';
+                ToolTip = 'Compare the expected schema with the actual schema of the completion.';
                 Image = TestFile;
                 AboutTitle = 'Test Completion';
                 AboutText = 'This action tests the completion of the prompt. The completion is compared to the expected schema and validation rules.';
@@ -168,7 +168,7 @@ page 70101 PromptTestCard
             action(BatchTest)
             {
                 Caption = 'Batch Test';
-                ToolTip = 'Send multiple prompts to the system and compare the expected schema with the actual schema of the completion';
+                ToolTip = 'Send multiple prompts to the system and compare the expected schema with the actual schema of the completion.';
                 Image = ChangeBatch;
                 AboutTitle = 'Batch Test';
                 AboutText = 'This action prepares a test suite in BCPT Setup to run multiple prompts in parallel. The action opens the list of suites and you have to start the suite manually.';
@@ -184,9 +184,9 @@ page 70101 PromptTestCard
             action(TestSetup)
             {
                 Caption = 'Test Setup';
-                ToolTip = 'Setup Technical and Semantical testing of completions';
+                ToolTip = 'Setup Technical and Semantical testing of completions.';
                 Image = Setup;
-                RunObject = Page PromptTestSetup;
+                RunObject = page PromptTestSetup;
                 RunPageOnRec = true;
                 AboutTitle = 'Test Setup';
                 AboutText = 'This action opens the Test Setup page where you can specify the expected schema and validation rules for the prompt.';
@@ -194,9 +194,9 @@ page 70101 PromptTestCard
             action(SetupAltUserPrompts)
             {
                 Caption = 'Setup Alt User Prompts';
-                ToolTip = 'Setup alternative user prompts';
+                ToolTip = 'Setup alternative user prompts.';
                 Image = SetupLines;
-                RunObject = Page AltUserPrompts;
+                RunObject = page AltUserPrompts;
                 RunPageLink = PromptCode = field(PromptCode);
                 AboutTitle = 'Setup Alt User Prompts';
                 AboutText = 'This action opens the Alt User Prompts page where you can specify alternative user prompts to simulate different user responses.';
@@ -204,7 +204,7 @@ page 70101 PromptTestCard
             action(Results)
             {
                 Caption = 'Results';
-                ToolTip = 'View the results of the prompt tests';
+                ToolTip = 'View the results of the prompt tests.';
                 Image = ErrorLog;
                 AboutTitle = 'Results';
                 AboutText = 'This action opens the Prompt Test Results page where you can view the results of the prompt tests.';

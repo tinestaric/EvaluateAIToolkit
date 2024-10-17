@@ -1,6 +1,9 @@
 table 70103 AltUserPrompt
 {
+    Caption = 'Alternative User Prompts';
     DataClassification = CustomerContent;
+    LookupPageId = AltUserPrompts;
+    DrillDownPageId = AltUserPrompts;
 
     fields
     {
@@ -8,11 +11,13 @@ table 70103 AltUserPrompt
         {
             Caption = 'Prompt Code';
             TableRelation = PromptTest;
+            AllowInCustomizations = Never;
         }
         field(2; LineNo; Integer)
         {
             Caption = 'Line No.';
             AutoIncrement = true;
+            AllowInCustomizations = Never;
         }
         field(20; UserPrompt; Text[2048])
         {

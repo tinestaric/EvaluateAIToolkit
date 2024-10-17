@@ -78,7 +78,7 @@ page 70102 PromptTestSetup
             action(TestSchema)
             {
                 Caption = 'Test Schema';
-                ToolTip = 'Tests the completion against the expected schema';
+                ToolTip = 'Tests the completion against the expected schema.';
                 Image = TestDatabase;
                 AboutTitle = 'Test Schema';
                 AboutText = 'This action will only test the completion against the expected schema. It will not test the validation prompt.';
@@ -95,7 +95,7 @@ page 70102 PromptTestSetup
             action(TestValidationPrompt)
             {
                 Caption = 'Test Validation Prompt';
-                ToolTip = 'Tests the completion against the validation prompt';
+                ToolTip = 'Tests the completion against the validation prompt.';
                 Image = TestFile;
                 AboutTitle = 'Test Validation Prompt';
                 AboutText = 'This action will only test the completion against the validation prompt. It will not test the expected schema.';
@@ -119,7 +119,7 @@ page 70102 PromptTestSetup
             action(GetResponseSchema)
             {
                 Caption = 'Extract Response Schema';
-                ToolTip = 'Uses GPT to extract the expected schema out of the system prompt';
+                ToolTip = 'Uses GPT to extract the expected schema out of the system prompt.';
                 Image = SparkleFilled;
                 AboutTitle = 'Extract Response Schema';
                 AboutText = 'This action will use GPT to extract the expected response schema out of the system prompt.';
@@ -135,7 +135,7 @@ page 70102 PromptTestSetup
             action(GetValidationPrompt)
             {
                 Caption = 'Create Validation Prompt';
-                ToolTip = 'Uses GPT to propose the validation prompt for the system prompt';
+                ToolTip = 'Uses GPT to propose the validation prompt for the system prompt.';
                 Image = SparkleFilled;
                 AboutTitle = 'Create Validation Prompt';
                 AboutText = 'This action will use GPT to propose the validation prompt for validating the completion.';
