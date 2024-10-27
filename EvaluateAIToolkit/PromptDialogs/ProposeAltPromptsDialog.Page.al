@@ -19,7 +19,6 @@ page 70110 ProposeAltPromptsDialog
             part(ProposalDetails; AltUserPromptsPart)
             {
                 ShowFilter = false;
-                ApplicationArea = All;
                 Editable = true;
                 Enabled = true;
                 SubPageLink = LineNo = field(ID);
@@ -33,7 +32,7 @@ page 70110 ProposeAltPromptsDialog
             systemaction(Generate)
             {
                 Caption = 'Generate';
-                Tooltip = 'Generate Alternative Prompts';
+                ToolTip = 'Generate Alternative Prompts';
                 trigger OnAction()
                 begin
                     GenerateAltUserPrompts();
@@ -42,7 +41,7 @@ page 70110 ProposeAltPromptsDialog
             systemaction(Regenerate)
             {
                 Caption = 'Regenerate';
-                Tooltip = 'Regenerate Alternative Prompts';
+                ToolTip = 'Regenerate Alternative Prompts';
                 trigger OnAction()
                 begin
                     GenerateAltUserPrompts();

@@ -48,7 +48,7 @@ page 60100 CustomerEmailGeneration
         {
             systemaction(Generate)
             {
-                Tooltip = 'Generates an Email';
+                ToolTip = 'Generates an Email';
                 trigger OnAction()
                 begin
                     GenerateEmail();
@@ -57,7 +57,7 @@ page 60100 CustomerEmailGeneration
             systemaction(Regenerate)
             {
                 Caption = 'Regenerate';
-                Tooltip = 'Regenerates an Email';
+                ToolTip = 'Regenerates an Email';
                 trigger OnAction()
                 begin
                     GenerateEmail();

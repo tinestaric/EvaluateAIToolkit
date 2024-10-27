@@ -4,6 +4,7 @@ using System.Tooling;
 
 table 70100 PromptTest
 {
+    Caption = 'Prompt Test';
     DataClassification = CustomerContent;
     LookupPageId = PromptTestList;
     DrillDownPageId = PromptTestCard;
@@ -13,6 +14,7 @@ table 70100 PromptTest
         field(1; PromptCode; Code[10])
         {
             Caption = 'Prompt Code';
+            NotBlank = true;
         }
         field(20; Description; Text[250])
         {
@@ -55,6 +57,7 @@ table 70100 PromptTest
         field(110; AIFeature; Enum AIFeature)
         {
             Caption = 'AI Feature';
+            AllowInCustomizations = Always;
         }
         field(120; AcceptablePassRate; Decimal)
         {

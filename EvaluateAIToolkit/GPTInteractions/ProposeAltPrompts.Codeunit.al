@@ -3,11 +3,12 @@ codeunit 70118 ProposeAltPrompts
     procedure ExecutePrompt(var GenerationId: Record "Name/Value Buffer"; var AltUserPromptGenerated: Record AltUserPrompt temporary; SysPromptToProcess: Text)
     var
         AOAIWrapper: Codeunit AOAIWrapper;
+        NonTempRecErr: Label 'This function can only be used with temporary records.';
         SystemPrompt: Text;
         Completion: Text;
     begin
         if not AltUserPromptGenerated.IsTemporary then
-            Error('This function can only be used with temporary records.');
+            Error(NonTempRecErr);
 
         SystemPrompt := GetSystemPrompt();
 

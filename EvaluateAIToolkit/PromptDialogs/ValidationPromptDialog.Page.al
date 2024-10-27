@@ -18,7 +18,7 @@ page 70107 ValidationPromptDialog
         {
             systemaction(Generate)
             {
-                Tooltip = 'Validates the completion.';
+                ToolTip = 'Validates the completion.';
                 trigger OnAction()
                 begin
                     ValidateCompletionWithPrompt();

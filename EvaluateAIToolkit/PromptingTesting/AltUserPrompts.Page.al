@@ -8,7 +8,7 @@ page 70108 AltUserPrompts
 
     layout
     {
-        area(content)
+        area(Content)
         {
             repeater(General)
             {
@@ -31,7 +31,7 @@ page 70108 AltUserPrompts
 
     actions
     {
-        area(processing)
+        area(Processing)
         {
             action(ProposeAltPrompts)
             {

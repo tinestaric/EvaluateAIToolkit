@@ -10,7 +10,7 @@ page 70103 PromptTestResultList
 
     layout
     {
-        area(content)
+        area(Content)
         {
             repeater(General)
             {

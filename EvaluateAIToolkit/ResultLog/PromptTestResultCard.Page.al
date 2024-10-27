@@ -9,7 +9,7 @@ page 70104 PromptTestResultCard
 
     layout
     {
-        area(content)
+        area(Content)
         {
             group(General)
             {
@@ -59,7 +59,7 @@ page 70104 PromptTestResultCard
                     MultiLine = true;
                 }
             }
-            Group(CompletionGroup)
+            group(CompletionGroup)
             {
                 Caption = 'Completion';
 

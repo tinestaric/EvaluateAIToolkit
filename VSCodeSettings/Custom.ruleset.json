@@ -13,20 +13,19 @@
             "justification": "The rule from Microsoft is too strict and apparently not implemented correctly (could possibly be reinstated later)"
         },
         {
-            "id": "AS0103",
-            "action": "Hidden",
-            "justification": "TableDefinitions need parameter set. - Temporarily hidden. Will be restored."
-        },
-	{
             "id": "AS0081",
             "action": "Hidden",
             "justification": "The rule should be hidden in order to use internal procedures in test app"
-        },
-	{
+        },    
+        {
             "id": "AA0218",
             "action": "Hidden",
             "justification": "Don't need tooltips yet"
+        },
+        {
+            "id": "LC0068",
+            "action": "Hidden",
+            "justification": "Permissions are not of concern yet"
         }
-
     ]
 }

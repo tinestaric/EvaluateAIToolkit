@@ -1,6 +1,9 @@
 table 70101 PromptTestResult
 {
+    Caption = 'Prompt Test Result';
     DataClassification = CustomerContent;
+    LookupPageId = PromptTestResultList;
+    DrillDownPageId = PromptTestResultList;
 
     fields
     {
@@ -8,6 +11,7 @@ table 70101 PromptTestResult
         {
             Caption = 'Prompt Code';
             TableRelation = PromptTest;
+            AllowInCustomizations = Always;
         }
         field(2; VersionNo; Integer)
         {

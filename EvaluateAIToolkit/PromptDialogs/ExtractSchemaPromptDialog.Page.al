@@ -31,7 +31,7 @@ page 70106 ExtractSchemaPromptDialog
         {
             systemaction(Generate)
             {
-                Tooltip = 'Generates an Email';
+                ToolTip = 'Generates an Email';
                 trigger OnAction()
                 begin
                     GenerateCompletion();
@@ -40,7 +40,7 @@ page 70106 ExtractSchemaPromptDialog
             systemaction(Regenerate)
             {
                 Caption = 'Regenerate';
-                Tooltip = 'Regenerates an Email';
+                ToolTip = 'Regenerates an Email';
                 trigger OnAction()
                 begin
                     GenerateCompletion();
@@ -82,11 +82,6 @@ page 70106 ExtractSchemaPromptDialog
     internal procedure SetPromptTest(PromptTest: Record PromptTest)
     begin
         _PromptTest := PromptTest;
-    end;
-
-    internal procedure GetCompletion(): Text
-    begin
-        exit(_Completion);
     end;
 
     local procedure GenerateCompletion()
