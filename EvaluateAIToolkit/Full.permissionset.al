@@ -43,5 +43,7 @@ permissionset 70100 Full
         page PromptTestSetup = X,
         page ProposeAltPromptsDialog = X,
         page RunPromptDialog = X,
-        page ValidationPromptDialog = X;
+        page ValidationPromptDialog = X,
+        codeunit gpt4o = X,
+        codeunit gpt4omini = X;
 }
