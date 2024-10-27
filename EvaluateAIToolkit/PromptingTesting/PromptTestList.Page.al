@@ -51,7 +51,7 @@ page 70100 PromptTestList
     trigger OnAfterGetRecord()
     begin
         Rec.CalcPassRates(_PassRate, _SchemaPassRate, _ValidationPassRate);
-        SetPassRateStyle();
+        _PassRateStyle := GetPassRateStyle();
     end;
 
     local procedure OpenTestResults()
@@ -63,11 +63,8 @@ page 70100 PromptTestList
         Page.Run(Page::PromptTestResultList, PromptTestResult);
     end;
 
-    local procedure SetPassRateStyle()
+    local procedure GetPassRateStyle(): Text
     begin
-        if _PassRate < Rec.AcceptablePassRate then
-            _PassRateStyle := 'Unfavorable'
-        else
-            _PassRateStyle := 'Favorable';
+        exit(Format(_PassRate < Rec.AcceptablePassRate ? PageStyle::Unfavorable : PageStyle::Favorable));
     end;
 }

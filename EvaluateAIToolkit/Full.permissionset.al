@@ -9,20 +9,24 @@ permissionset 70100 Full
 {
     Caption = 'Evaluate AI Toolkit', Locked = true;
     Assignable = true;
-    Permissions = tabledata AltUserPrompt = RIMD,
-        tabledata PromptTest = RIMD,
-        tabledata PromptTestResult = RIMD,
-        table AltUserPrompt = X,
+    Permissions = table AltUserPrompt = X,
+        tabledata AltUserPrompt = RIMD,
         table PromptTest = X,
+        tabledata PromptTest = RIMD,
         table PromptTestResult = X,
+        tabledata PromptTestResult = RIMD,
         codeunit AIFeatureNone = X,
         codeunit AOAIWrapper = X,
         codeunit CreateValidationPrompt = X,
         codeunit ExecuteTestPrompt = X,
         codeunit ExtractResponseSchema = X,
+        codeunit gpt4o = X,
+        codeunit gpt4omini = X,
         codeunit gpt35turbo = X,
         codeunit gpt35turbo16k = X,
         codeunit gpt432k = X,
+        codeunit o1mini = X,
+        codeunit o1preview = X,
         codeunit PromptTestBCPT = X,
         codeunit ProposeAltPrompts = X,
         codeunit "Register Capability" = X,
@@ -43,9 +47,5 @@ permissionset 70100 Full
         page PromptTestSetup = X,
         page ProposeAltPromptsDialog = X,
         page RunPromptDialog = X,
-        page ValidationPromptDialog = X,
-        codeunit gpt4o = X,
-        codeunit gpt4omini = X,
-        codeunit o1mini = X,
-        codeunit o1preview = X;
+        page ValidationPromptDialog = X;
 }

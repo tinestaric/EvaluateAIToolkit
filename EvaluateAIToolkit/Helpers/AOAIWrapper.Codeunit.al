@@ -5,8 +5,9 @@ using System.AI;
 codeunit 70102 AOAIWrapper
 {
     var
-        IAOAIDeployment: Interface IAOAIDeployment;
-        DeploymentSet: Boolean;
+        _IAOAIDeployment: Interface IAOAIDeployment;
+        _DeploymentSet: Boolean;
+        _JsonMode: Boolean;
 
     [NonDebuggable]
     internal procedure GenerateResponse(SystemPrompt: Text; UserPrompt: Text): Text
@@ -25,13 +26,14 @@ codeunit 70102 AOAIWrapper
 
         AzureOpenAI.SetAuthorization(
             "AOAI Model Type"::"Chat Completions",
-            IAOAIDeployment.GetEndpoint(),
-            IAOAIDeployment.GetDeployment(),
-            IAOAIDeployment.GetAPIKey()
+            _IAOAIDeployment.GetEndpoint(),
+            _IAOAIDeployment.GetDeployment(),
+            _IAOAIDeployment.GetAPIKey()
         );
         AzureOpenAI.SetCopilotCapability("Copilot Capability"::EvaluateAIToolkit);
         AOAIChatCompletionParams.SetMaxTokens(MaxOutputTokens());
         AOAIChatCompletionParams.SetTemperature(0);
+        AOAIChatCompletionParams.SetJsonMode(_JsonMode);
         AOAIChatMessages.AddSystemMessage(SystemPrompt);
         AOAIChatMessages.AddUserMessage(UserPrompt);
         AzureOpenAI.GenerateChatCompletion(AOAIChatMessages, AOAIChatCompletionParams, AOAIOperationResponse);
@@ -45,7 +47,7 @@ codeunit 70102 AOAIWrapper
 
     local procedure MaxInputTokens(): Integer
     begin
-        exit(IAOAIDeployment.MaxModelTokens() - MaxOutputTokens());
+        exit(_IAOAIDeployment.MaxModelTokens() - MaxOutputTokens());
     end;
 
     local procedure MaxOutputTokens(): Integer
@@ -66,18 +68,23 @@ codeunit 70102 AOAIWrapper
 
     local procedure GetDeploymentInstance()
     var
-        gpt35turbo: Codeunit gpt35turbo16k;
+        gpt4o: Codeunit gpt4o;
     begin
-        if DeploymentSet then
+        if _DeploymentSet then
             exit;
 
-        IAOAIDeployment := gpt35turbo;
-        DeploymentSet := true;
+        _IAOAIDeployment := gpt4o;
+        _DeploymentSet := true;
     end;
 
     internal procedure SetDeploymentInstance(DeploymentInstance: Interface IAOAIDeployment)
     begin
-        IAOAIDeployment := DeploymentInstance;
-        DeploymentSet := true;
+        _IAOAIDeployment := DeploymentInstance;
+        _DeploymentSet := true;
+    end;
+
+    internal procedure SetJsonMode(JsonMode: Boolean)
+    begin
+        _JsonMode := JsonMode;
     end;
 }

@@ -2,10 +2,16 @@ codeunit 70104 ExecuteTestPrompt implements ISimplePrompt
 {
     var
         _IAOAIDeployment: Interface IAOAIDeployment;
+        _JsonMode: Boolean;
 
     procedure SetDeployment(AOAIDeployment: Interface IAOAIDeployment): Boolean
     begin
         _IAOAIDeployment := AOAIDeployment;
+    end;
+
+    procedure SetJsonMode(JsonMode: Boolean): Boolean
+    begin
+        _JsonMode := JsonMode;
     end;
 
     procedure ExecutePrompt(SysPrompt: Text; UserPrompt: Text) Completion: Text
@@ -13,6 +19,7 @@ codeunit 70104 ExecuteTestPrompt implements ISimplePrompt
         AOAIWrapper: Codeunit AOAIWrapper;
     begin
         AOAIWrapper.SetDeploymentInstance(_IAOAIDeployment);
+        AOAIWrapper.SetJsonMode(_JsonMode);
         Completion := AOAIWrapper.GenerateResponse(SysPrompt, UserPrompt);
     end;
 

@@ -31,6 +31,12 @@ page 70102 PromptTestSetup
                     AboutTitle = 'Deployment';
                     AboutText = 'You can select different OpenAI deployments for testing prompts. This setting has no effect if you''re testing existing features.';
                 }
+                field(JsonMode; Rec.JsonMode)
+                {
+                    Editable = Rec.AIFeature = Rec.AIFeature::None;
+                    AboutTitle = 'JSON Mode';
+                    AboutText = 'You can select JSON mode to force the model to return JSON response.';
+                }
             }
             group(ResponseSchemaGroup)
             {

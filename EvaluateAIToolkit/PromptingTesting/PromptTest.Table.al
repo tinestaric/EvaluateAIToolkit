@@ -66,6 +66,10 @@ table 70100 PromptTest
             MaxValue = 100;
             InitValue = 80;
         }
+        field(130; JsonMode; Boolean)
+        {
+            Caption = 'JSON Mode';
+        }
     }
 
     keys
@@ -191,6 +195,7 @@ table 70100 PromptTest
     begin
         if AIFeature = AIFeature::None then begin
             ExecuteTestPrompt.SetDeployment(Rec.Deployment);
+            ExecuteTestPrompt.SetJsonMode(Rec.JsonMode);
             exit(ExecuteTestPrompt.ExecutePrompt(Rec.GetSystemPrompt(), UserPrompt));
         end else begin
             IAIFeature := AIFeature;
