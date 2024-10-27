@@ -18,13 +18,26 @@
 	],
 	"settings": {
 		"al.enableCodeAnalysis": true,
-		"al.codeAnalyzers": [		
+		"al.codeAnalyzers": [
 			"${CodeCop}",
-			//"${AppSourceCop}",
 			"${UICop}",
-			"../VSCodeSettings/CompanialCopAnalyzer.dll"
+			"${PerTenantExtensionCop}",
+			// "${AppSourceCop}",
+			"${analyzerFolder}BusinessCentral.LinterCop.dll",
 		],
 		"al.ruleSetPath": "../VSCodeSettings/Custom.ruleset.json",
+		"linterCop.repositories": [
+			{
+				"url": "https://github.com/StefanMaron/BusinessCentral.LinterCop",
+				"shortName": "BcLntr",
+				"fileName": "BusinessCentral.LinterCop.dll"
+			},
+			{
+				"url": "https://github.com/Companial/CompanialCop",
+				"shortName": "CompanialCop",
+				"fileName": "CompanialCop.dll"
+			}
+		],
 
 		"cSpell.enableFiletypes": [
 			"al",
@@ -49,23 +62,6 @@
 		"todo-tree.general.tags": [
 			"ToDo",
 			"TODO"
-		]
-	},
-	"extensions": {
-		"recommendations": [
-			"andrzejzwierzchowski.al-code-outline",
-			"BartPermentier.al-toolbox",
-			"davidfeldhoff.al-codeactions",
-			"ms-dynamics-smb.al",
-			"nabsolutions.nab-al-tools",
-			"nwallace.createGUID",
-			"rasmus.al-var-helper",
-			"vjeko.vjeko-al-objid",
-			"rvanbekkum.xliff-sync",
-			"waldo.al-extension-pack",
-			"wbrakowski.al-navigator",
-			"wayou.vscode-todo-highlight",
-			"waldo.crs-al-language-extension"			
 		]
 	}
 }
