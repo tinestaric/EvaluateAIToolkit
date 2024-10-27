@@ -45,5 +45,7 @@ permissionset 70100 Full
         page RunPromptDialog = X,
         page ValidationPromptDialog = X,
         codeunit gpt4o = X,
-        codeunit gpt4omini = X;
+        codeunit gpt4omini = X,
+        codeunit o1mini = X,
+        codeunit o1preview = X;
 }
